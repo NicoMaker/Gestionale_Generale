@@ -1,5 +1,5 @@
 // Definizione dello schema: 25 moduli x 20 tabelle = 500 tabelle.
-const MODULES = {
+export const MODULES = {
   vendite: "Vendite",
   acquisti: "Acquisti",
   magazzino: "Magazzino",
@@ -199,7 +199,7 @@ const TEMPLATE = [
   ],
 ];
 
-const SQL_TYPE = {
+export const SQL_TYPE = {
   int: "INTEGER",
   text: "TEXT",
   real: "REAL",
@@ -207,7 +207,7 @@ const SQL_TYPE = {
   bool: "INTEGER",
 };
 
-function buildTables() {
+export function buildTables() {
   const tables = [];
   for (const [mod, modLabel] of Object.entries(MODULES)) {
     const p = (suffix) => `${mod}_${suffix}`;
@@ -230,4 +230,3 @@ function buildTables() {
   return tables;
 }
 
-module.exports = { MODULES, SQL_TYPE, buildTables };

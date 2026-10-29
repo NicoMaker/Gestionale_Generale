@@ -1,0 +1,73 @@
+/* Variabili di tema (chiaro / scuro) e reset */
+:root {
+  --bg: #f3f4f9;
+  --surface: #ffffff;
+  --surface-2: #f8f9fc;
+  --text: #161a2b;
+  --muted: #727a94;
+  --line: #e6e8f0;
+  --accent: #5b4bf0;
+  --accent-2: #8a5cf6;
+  --accent-soft: #eeebff;
+  --c2: #14b8a6;
+  --side: #14162a;
+  --side-text: #aeb3cc;
+  --side-active: #ffffff14;
+  --ok: #12a05c;
+  --ok-bg: #e3f7ec;
+  --warn-bg: #eef0f6;
+  --bad: #d8384a;
+  --bad-bg: #fde8ea;
+  --shadow: 0 1px 2px rgba(22, 26, 43, 0.05), 0 8px 24px -12px rgba(22, 26, 43, 0.12);
+  --radius: 14px;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0e1020;
+  --surface: #181b30;
+  --surface-2: #1e2238;
+  --text: #eceefa;
+  --muted: #8b92b0;
+  --line: #2a2e4a;
+  --accent: #8b7dff;
+  --accent-2: #b08cff;
+  --accent-soft: #272454;
+  --c2: #2dd4bf;
+  --side: #0a0b18;
+  --ok: #4fd18f;
+  --ok-bg: #12352a;
+  --warn-bg: #262a42;
+  --bad: #ff6b7d;
+  --bad-bg: #3b1d27;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 14px/1.5 "Manrope", system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+body.no-scroll { overflow: hidden; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+code { padding: 1px 6px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); font-size: 12.5px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+kbd {
+  font: 600 11px/1 "Manrope", sans-serif;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

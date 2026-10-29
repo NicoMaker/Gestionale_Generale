@@ -1,7 +1,7 @@
-const { all, get, run } = require("../config/db");
-const { byName, labelCol } = require("../schema");
+import { all, get, run } from "../config/db.js";
+import { byName, labelCol } from "../schema/index.js";
 
-const editable = (t) =>
+export const editable = (t) =>
   t.columns.filter((c) => !c.pk && c.name !== "created_at");
 const pick = (t, body) => {
   const out = {};
@@ -11,7 +11,7 @@ const pick = (t, body) => {
   return out;
 };
 
-async function list(t, { page = 1, limit = 20, q = "" }) {
+export async function list(t, { page = 1, limit = 20, q = "" }) {
   page = Math.max(1, parseInt(page) || 1);
   limit = Math.min(200, Math.max(1, parseInt(limit) || 20));
   const textCols = t.columns.filter((c) => c.type === "text");
@@ -46,9 +46,9 @@ async function list(t, { page = 1, limit = 20, q = "" }) {
   };
 }
 
-const getOne = (t, id) => get(`SELECT * FROM "${t.name}" WHERE id = ?`, [id]);
+export const getOne = (t, id) => get(`SELECT * FROM "${t.name}" WHERE id = ?`, [id]);
 
-async function create(t, body) {
+export async function create(t, body) {
   const data = pick(t, body);
   const keys = Object.keys(data);
   const sql = keys.length
@@ -61,7 +61,7 @@ async function create(t, body) {
   return getOne(t, lastID);
 }
 
-async function update(t, id, body) {
+export async function update(t, id, body) {
   const data = pick(t, body);
   const keys = Object.keys(data);
   if (keys.length)
@@ -72,12 +72,11 @@ async function update(t, id, body) {
   return getOne(t, id);
 }
 
-const remove = async (t, id) =>
+export const remove = async (t, id) =>
   (await run(`DELETE FROM "${t.name}" WHERE id = ?`, [id])).changes;
 
-const options = (t) =>
+export const options = (t) =>
   all(
     `SELECT id, "${labelCol(t)}" AS label FROM "${t.name}" ORDER BY id LIMIT 500`,
   );
 
-module.exports = { options, list, getOne, create, update, remove, editable };

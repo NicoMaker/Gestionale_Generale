@@ -1,21 +1,26 @@
 {
   "name": "gestionale",
   "version": "1.0.0",
-  "description": "Gestionale Node.js + Express + SQLite3 con 500 tabelle",
+  "description": "Gestionale Node.js + Express + SQLite3 con 500 tabelle (ES modules)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "node --watch server.js",
     "db:init": "node src/db/init.js",
     "db:reset": "node scripts/reset-db.js",
-    "schema:mmd": "node scripts/generate-mmd.js"
+    "schema:mmd": "node scripts/generate-mmd.js",
+    "schema:solo-mmd": "node scripts/generate-mmd.js --no-png",
+    "schema:completo": "node scripts/generate-mmd.js --full"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "nodemon": "^3.1.14",
+    "express": "^5.1.0",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^12.0.0"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
   }
 }

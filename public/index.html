@@ -2,25 +2,45 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Gestionale</title>
+    <meta name="theme-color" content="#f3f4f9" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <!-- applica il tema prima del primo disegno (niente lampo bianco) -->
+    <script>
+      document.documentElement.dataset.theme =
+        localStorage.getItem("theme") ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/base/variabili.css" />
+    <link rel="stylesheet" href="css/base/layout.css" />
+    <link rel="stylesheet" href="css/componenti/icone.css" />
+    <link rel="stylesheet" href="css/componenti/bottoni.css" />
+    <link rel="stylesheet" href="css/componenti/tema.css" />
+    <link rel="stylesheet" href="css/componenti/sidebar.css" />
+    <link rel="stylesheet" href="css/componenti/topbar.css" />
+    <link rel="stylesheet" href="css/componenti/home.css" />
+    <link rel="stylesheet" href="css/componenti/modulo.css" />
+    <link rel="stylesheet" href="css/componenti/tabella.css" />
+    <link rel="stylesheet" href="css/componenti/schema-img.css" />
+    <link rel="stylesheet" href="css/componenti/drawer.css" />
+    <link rel="stylesheet" href="css/componenti/palette.css" />
+    <link rel="stylesheet" href="css/componenti/toast.css" />
+    <link rel="stylesheet" href="css/componenti/responsive.css" />
   </head>
   <body>
     <div class="app">
       <aside class="sidebar" id="sidebar">
-        <div class="brand"><span class="logo">G</span><b>Gestionale</b></div>
-        <button class="nav-item" id="navHome">
-          <span class="ico">🏠</span>Panoramica
-        </button>
+        <div class="brand"><span class="logo">G</span><b>Gestionale</b><button class="menu-close" id="menuClose" aria-label="Chiudi menu"></button></div>
+        <button class="nav-item" id="navHome"></button>
         <div class="search-box">
-          <input id="modFilter" placeholder="Cerca modulo" autocomplete="off" />
+          <input id="modFilter" placeholder="Cerca categoria o sezione" autocomplete="off" />
         </div>
         <nav id="modList" class="mod-list"></nav>
       </aside>
@@ -28,16 +48,10 @@
 
       <div class="content">
         <header class="topbar">
-          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Apri menu">
-            ☰
-          </button>
+          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Apri menu"></button>
           <div class="crumbs" id="crumbs"></div>
-          <button class="search-trigger" id="palBtn">
-            Cerca ovunque <kbd>Ctrl K</kbd>
-          </button>
-          <button class="icon-btn" id="themeBtn" aria-label="Cambia tema">
-            🌓
-          </button>
+          <button class="search-trigger" id="palBtn"></button>
+          <button class="icon-btn tema-btn" id="themeBtn" aria-label="Cambia tema"></button>
         </header>
         <main id="view"></main>
       </div>
@@ -48,14 +62,7 @@
       <form id="form" autocomplete="off">
         <header>
           <h3 id="drawerTitle"></h3>
-          <button
-            type="button"
-            class="icon-btn"
-            id="drawerClose"
-            aria-label="Chiudi"
-          >
-            ✕
-          </button>
+          <button type="button" class="icon-btn" id="drawerClose" aria-label="Chiudi"></button>
         </header>
         <div class="drawer-body" id="fields"></div>
         <footer>
@@ -66,21 +73,15 @@
     </aside>
     <div class="palette-scrim" id="pScrim">
       <div class="palette" role="dialog" aria-label="Cerca">
-        <input
-          id="pInput"
-          placeholder="Vai a un modulo o a una tabella"
-          autocomplete="off"
-        />
+        <input id="pInput" placeholder="Vai a una categoria o a una sezione" autocomplete="off" />
         <ul id="pList"></ul>
         <footer>
-          <span><kbd>↑</kbd><kbd>↓</kbd> naviga</span
-          ><span><kbd>Invio</kbd> apri</span><span><kbd>Esc</kbd> chiudi</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> naviga</span><span><kbd>Invio</kbd> apri</span><span><kbd>Esc</kbd> chiudi</span>
         </footer>
       </div>
     </div>
     <div class="toasts" id="toasts"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="js/core/main.js"></script>
   </body>
 </html>

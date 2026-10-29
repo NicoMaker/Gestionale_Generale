@@ -1,6 +1,7 @@
-const { get, exec, dbPath } = require("../config/db");
-const { tables, createSql } = require("../schema");
-const { seedAll } = require("./seed");
+import { pathToFileURL } from "node:url";
+import { get, exec, dbPath } from "../config/db.js";
+import { tables, createSql } from "../schema/index.js";
+import { seedAll } from "./seed.js";
 
 async function tx(fn) {
   await exec("BEGIN");
@@ -13,21 +14,21 @@ async function tx(fn) {
   }
 }
 
-async function initDb() {
+export async function initDb() {
   await tx(async () => {
     for (const t of tables) await exec(createSql(t));
   });
-  const first = await get("SELECT COUNT(*) AS n FROM vendite_tipi");
-  if (first.n === 0) await tx(seedAll);
+  const { n } = await get("SELECT COUNT(*) AS n FROM vendite_tipi");
+  if (n === 0) await tx(seedAll);
 }
 
-module.exports = { initDb };
-
-if (require.main === module) {
-  initDb()
-    .then(() => console.log(`DB pronto: ${dbPath} (${tables.length} tabelle)`))
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
-    });
+// eseguito direttamente (`npm run db:init`)
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  try {
+    await initDb();
+    console.log(`DB pronto: ${dbPath} (${tables.length} tabelle)`);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 }

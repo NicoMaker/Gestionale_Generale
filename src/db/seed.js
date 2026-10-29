@@ -1,7 +1,7 @@
 // Popola TUTTE le 500 tabelle con dati realistici e coerenti (chiavi esterne rispettate).
-const { run } = require("../config/db");
-const { MODULES } = require("../schema");
-const DATA = require("./seed-data");
+import { run } from "../config/db.js";
+import { MODULES } from "../schema/index.js";
+import DATA from "./seed-data.js";
 
 const NOMI = [
   "Luca",
@@ -326,9 +326,8 @@ async function seedModule(mod, idx) {
     });
 }
 
-async function seedAll() {
+export async function seedAll() {
   for (const [i, mod] of Object.keys(MODULES).entries())
     await seedModule(mod, i);
 }
 
-module.exports = { seedAll };

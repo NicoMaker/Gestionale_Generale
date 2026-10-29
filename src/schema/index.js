@@ -1,9 +1,11 @@
-const { MODULES, SQL_TYPE, buildTables } = require("./definitions");
+import { MODULES, SQL_TYPE, buildTables } from "./definitions.js";
 
-const tables = buildTables();
-const byName = new Map(tables.map((t) => [t.name, t]));
+export { MODULES };
 
-function createSql(t) {
+export const tables = buildTables();
+export const byName = new Map(tables.map((t) => [t.name, t]));
+
+export function createSql(t) {
   const cols = t.columns.map((c) => {
     if (c.pk) return `"${c.name}" INTEGER PRIMARY KEY AUTOINCREMENT`;
     let sql = `"${c.name}" ${SQL_TYPE[c.type]}`;
@@ -18,7 +20,7 @@ function createSql(t) {
 }
 
 // Genera erDiagram Mermaid per un insieme di tabelle
-function toMermaid(list) {
+export function toMermaid(list) {
   const names = new Set(list.map((t) => t.name));
   const mt = {
     int: "int",
@@ -56,7 +58,6 @@ const LABELS = [
   "azione",
   "nome_file",
 ];
-const labelCol = (t) =>
+export const labelCol = (t) =>
   LABELS.find((l) => t.columns.some((c) => c.name === l)) || "id";
 
-module.exports = { MODULES, tables, byName, createSql, toMermaid, labelCol };

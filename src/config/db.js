@@ -1,15 +1,15 @@
-const fs = require("fs");
-const path = require("path");
-const sqlite3 = require("sqlite3").verbose();
+import { mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import sqlite3 from "sqlite3";
 
-const dbPath =
-  process.env.DB_PATH || path.join(__dirname, "../../data/gestionale.db");
-fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+export const dbPath =
+  process.env.DB_PATH ?? join(import.meta.dirname, "../../data/gestionale.db");
+mkdirSync(dirname(dbPath), { recursive: true });
 
-const db = new sqlite3.Database(dbPath);
+export const db = new (sqlite3.verbose().Database)(dbPath);
 db.serialize(() => db.run("PRAGMA foreign_keys = ON"));
 
-const run = (sql, params = []) =>
+export const run = (sql, params = []) =>
   new Promise((resolve, reject) =>
     db.run(sql, params, function (err) {
       err
@@ -17,15 +17,13 @@ const run = (sql, params = []) =>
         : resolve({ lastID: this.lastID, changes: this.changes });
     }),
   );
-const all = (sql, params = []) =>
+export const all = (sql, params = []) =>
   new Promise((res, rej) =>
     db.all(sql, params, (e, r) => (e ? rej(e) : res(r))),
   );
-const get = (sql, params = []) =>
+export const get = (sql, params = []) =>
   new Promise((res, rej) =>
     db.get(sql, params, (e, r) => (e ? rej(e) : res(r))),
   );
-const exec = (sql) =>
+export const exec = (sql) =>
   new Promise((res, rej) => db.exec(sql, (e) => (e ? rej(e) : res())));
-
-module.exports = { db, run, all, get, exec, dbPath };

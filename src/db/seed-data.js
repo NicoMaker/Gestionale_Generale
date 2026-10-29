@@ -6,7 +6,7 @@ const row = (tipi, cat, anag, art) => ({
   art: art.split("|"),
 });
 
-module.exports = {
+export default {
   vendite: row(
     "Dettaglio|Ingrosso|Online",
     "Abbigliamento|Elettronica|Arredo",
