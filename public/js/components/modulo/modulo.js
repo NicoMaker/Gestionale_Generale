@@ -30,8 +30,6 @@ export async function renderModulo(id) {
           <span class="opz-n">${fmt(t.records)}</span><span class="opz-go">${icona("freccia")}</span></a>`;
       }).join("")}</div></section>`).join("")}
     <section class="opz-gruppo">
-      <div class="opz-titolo"><h2>Schema</h2><span>Relazioni tra le tabelle della categoria</span></div>
-      ${s.img ? schemaFigure(`modules/${id}`, m.label) : schemaMancante()}
     </section>`;
   initSchemaFigure($("#view"));
   countUp($("#view"));
