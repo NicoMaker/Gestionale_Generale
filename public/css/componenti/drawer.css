@@ -1,15 +1,68 @@
 .drawer {
-  position: fixed; top: 0; right: 0; height: 100%; width: min(440px, 100vw); background: var(--surface); z-index: 60;
-  transform: translateX(100%); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: -20px 0 50px -20px rgba(0, 0, 0, 0.35);
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(440px, 100vw);
+  background: var(--surface);
+  z-index: 60;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: -20px 0 50px -20px rgba(0, 0, 0, 0.35);
 }
-.drawer.open { transform: none; }
-.drawer form { display: flex; flex-direction: column; height: 100%; }
-.drawer header, .drawer footer { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.drawer header { border-bottom: 1px solid var(--line); }
-.drawer h3 { margin: 0; font-size: 18px; }
-.drawer footer { border-top: 1px solid var(--line); justify-content: flex-end; }
-.drawer-body { flex: 1; overflow: auto; padding: 20px; display: grid; gap: 16px; align-content: start; }
-.field label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
-.field label i { color: var(--bad); font-style: normal; }
-.field .check { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
-.field .check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.drawer.open {
+  transform: none;
+}
+.drawer form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.drawer header,
+.drawer footer {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.drawer header {
+  border-bottom: 1px solid var(--line);
+}
+.drawer h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.drawer footer {
+  border-top: 1px solid var(--line);
+  justify-content: flex-end;
+}
+.drawer-body {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.field label i {
+  color: var(--bad);
+  font-style: normal;
+}
+.field .check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+.field .check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}

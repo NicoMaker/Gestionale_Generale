@@ -37,7 +37,8 @@ const stretto = () => matchMedia("(max-width: 700px)").matches;
 const zoom = (img, v) => {
   img.dataset.z = v;
   if (v === "fit") return void (img.style.width = "");
-  if (!img.naturalWidth) return img.addEventListener("load", () => zoom(img, v), { once: true });
+  if (!img.naturalWidth)
+    return img.addEventListener("load", () => zoom(img, v), { once: true });
   img.style.width = `${(img.naturalWidth / 2) * (v / 100)}px`;
 };
 function apri(nome, titolo) {
@@ -52,10 +53,15 @@ function apri(nome, titolo) {
       <div class="lb-body"><img class="solo-chiaro" alt=""><img class="solo-scuro" alt=""></div>`;
     document.body.append(lb);
     lb.onclick = (e) => {
-      if (e.target.closest("[data-x]") || e.target === lb.querySelector(".lb-body")) return chiudi();
+      if (
+        e.target.closest("[data-x]") ||
+        e.target === lb.querySelector(".lb-body")
+      )
+        return chiudi();
       const z = e.target.closest("[data-z]")?.dataset.z;
       lb.querySelectorAll("img").forEach((img) => {
-        const cur = !img.dataset.z || img.dataset.z === "fit" ? 100 : +img.dataset.z;
+        const cur =
+          !img.dataset.z || img.dataset.z === "fit" ? 100 : +img.dataset.z;
         if (z === "fit") zoom(img, "fit");
         if (z === "+") zoom(img, Math.min(400, cur + 25));
         if (z === "-") zoom(img, Math.max(25, cur - 25));
@@ -77,7 +83,8 @@ function apri(nome, titolo) {
 export function initSchemaFigure(root) {
   root.querySelectorAll(".schema-fig").forEach((f) =>
     f.addEventListener("click", (e) => {
-      if (e.target.closest("[data-apri]")) apri(f.dataset.schema, f.dataset.titolo);
+      if (e.target.closest("[data-apri]"))
+        apri(f.dataset.schema, f.dataset.titolo);
     }),
   );
 }

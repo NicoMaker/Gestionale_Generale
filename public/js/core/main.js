@@ -38,7 +38,10 @@ async function mostra(route) {
   initForm();
   initPalette();
   const [mods, stats, dash, tabs] = await Promise.all([
-    api("/api/modules"), api("/api/stats"), api("/api/dashboard"), api("/api/tables"),
+    api("/api/modules"),
+    api("/api/stats"),
+    api("/api/dashboard"),
+    api("/api/tables"),
   ]);
   Object.assign(state, { mods, stats, dash });
   state.labels = Object.fromEntries(tabs.map((t) => [t.name, t.label]));

@@ -18,6 +18,7 @@ export function renderCrumbs() {
 }
 
 export function initTopbar(apriRicerca) {
-  $("#palBtn").innerHTML = `${icona("cerca")}<span class="lbl">Cerca ovunque</span><kbd>Ctrl K</kbd>`;
+  $("#palBtn").innerHTML =
+    `${icona("cerca")}<span class="lbl">Cerca ovunque</span><kbd>Ctrl K</kbd>`;
   $("#palBtn").onclick = apriRicerca;
 }

@@ -330,4 +330,3 @@ export async function seedAll() {
   for (const [i, mod] of Object.keys(MODULES).entries())
     await seedModule(mod, i);
 }
-

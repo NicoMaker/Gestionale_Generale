@@ -46,7 +46,8 @@ export async function list(t, { page = 1, limit = 20, q = "" }) {
   };
 }
 
-export const getOne = (t, id) => get(`SELECT * FROM "${t.name}" WHERE id = ?`, [id]);
+export const getOne = (t, id) =>
+  get(`SELECT * FROM "${t.name}" WHERE id = ?`, [id]);
 
 export async function create(t, body) {
   const data = pick(t, body);
@@ -79,4 +80,3 @@ export const options = (t) =>
   all(
     `SELECT id, "${labelCol(t)}" AS label FROM "${t.name}" ORDER BY id LIMIT 500`,
   );
-

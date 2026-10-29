@@ -60,4 +60,3 @@ const LABELS = [
 ];
 export const labelCol = (t) =>
   LABELS.find((l) => t.columns.some((c) => c.name === l)) || "id";
-

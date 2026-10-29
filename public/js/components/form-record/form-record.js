@@ -4,7 +4,8 @@ import { api } from "../../core/api.js";
 import { icona } from "../../core/icone.js";
 import { toast } from "../toast/toast.js";
 
-const drawer = () => $("#drawer"), scrim = () => $("#drawerScrim");
+const drawer = () => $("#drawer"),
+  scrim = () => $("#drawerScrim");
 export const chiudiForm = () => {
   drawer().classList.remove("open");
   scrim().classList.remove("open");
@@ -19,9 +20,13 @@ export async function apriForm(table, meta, id, dopoSalvataggio) {
   const cols = meta.columns.filter((c) => !c.pk && c.name !== "created_at");
   const opts = {};
   await Promise.all(
-    cols.filter((c) => c.fk).map(async (c) => {
-      opts[c.name] = await api(`/api/tables/${c.fk.table}/options`).catch(() => []);
-    }),
+    cols
+      .filter((c) => c.fk)
+      .map(async (c) => {
+        opts[c.name] = await api(`/api/tables/${c.fk.table}/options`).catch(
+          () => [],
+        );
+      }),
   );
   $("#fields").innerHTML = cols
     .map((c) => {
@@ -47,12 +52,17 @@ export function initForm() {
   $("#drawerClose").innerHTML = icona("chiudi");
   $("#drawerClose").onclick = $("#drawerCancel").onclick = chiudiForm;
   scrim().onclick = chiudiForm;
-  document.addEventListener("keydown", (e) => e.key === "Escape" && chiudiForm());
+  document.addEventListener(
+    "keydown",
+    (e) => e.key === "Escape" && chiudiForm(),
+  );
   $("#form").onsubmit = async (e) => {
     e.preventDefault();
     const body = {};
     for (const el of e.target.elements)
-      if (el.name) body[el.name] = el.type === "checkbox" ? (el.checked ? 1 : 0) : el.value;
+      if (el.name)
+        body[el.name] =
+          el.type === "checkbox" ? (el.checked ? 1 : 0) : el.value;
     const table = `${state.route.mod}_${state.route.suffix}`;
     try {
       state.editId

@@ -1,7 +1,31 @@
 /* Toggle tema: sole nel tema chiaro, luna nel tema scuro */
-.tema-btn { position: relative; overflow: hidden; }
-.tema-btn .icona { position: absolute; width: 19px; height: 19px; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s; }
-.tema-btn .ico-sole { color: #f59e0b; opacity: 1; transform: none; }
-.tema-btn .ico-luna { color: #a5b4fc; opacity: 0; transform: rotate(-80deg) scale(0.4); }
-:root[data-theme="dark"] .tema-btn .ico-sole { opacity: 0; transform: rotate(80deg) scale(0.4); }
-:root[data-theme="dark"] .tema-btn .ico-luna { opacity: 1; transform: none; }
+.tema-btn {
+  position: relative;
+  overflow: hidden;
+}
+.tema-btn .icona {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s;
+}
+.tema-btn .ico-sole {
+  color: #f59e0b;
+  opacity: 1;
+  transform: none;
+}
+.tema-btn .ico-luna {
+  color: #a5b4fc;
+  opacity: 0;
+  transform: rotate(-80deg) scale(0.4);
+}
+:root[data-theme="dark"] .tema-btn .ico-sole {
+  opacity: 0;
+  transform: rotate(80deg) scale(0.4);
+}
+:root[data-theme="dark"] .tema-btn .ico-luna {
+  opacity: 1;
+  transform: none;
+}

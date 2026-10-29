@@ -2,7 +2,10 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Gestionale</title>
     <meta name="theme-color" content="#f3f4f9" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -37,10 +40,21 @@
   <body>
     <div class="app">
       <aside class="sidebar" id="sidebar">
-        <div class="brand"><span class="logo">G</span><b>Gestionale</b><button class="menu-close" id="menuClose" aria-label="Chiudi menu"></button></div>
+        <div class="brand">
+          <span class="logo">G</span><b>Gestionale</b
+          ><button
+            class="menu-close"
+            id="menuClose"
+            aria-label="Chiudi menu"
+          ></button>
+        </div>
         <button class="nav-item" id="navHome"></button>
         <div class="search-box">
-          <input id="modFilter" placeholder="Cerca categoria o sezione" autocomplete="off" />
+          <input
+            id="modFilter"
+            placeholder="Cerca categoria o sezione"
+            autocomplete="off"
+          />
         </div>
         <nav id="modList" class="mod-list"></nav>
       </aside>
@@ -48,10 +62,18 @@
 
       <div class="content">
         <header class="topbar">
-          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Apri menu"></button>
+          <button
+            class="icon-btn menu-btn"
+            id="menuBtn"
+            aria-label="Apri menu"
+          ></button>
           <div class="crumbs" id="crumbs"></div>
           <button class="search-trigger" id="palBtn"></button>
-          <button class="icon-btn tema-btn" id="themeBtn" aria-label="Cambia tema"></button>
+          <button
+            class="icon-btn tema-btn"
+            id="themeBtn"
+            aria-label="Cambia tema"
+          ></button>
         </header>
         <main id="view"></main>
       </div>
@@ -62,7 +84,12 @@
       <form id="form" autocomplete="off">
         <header>
           <h3 id="drawerTitle"></h3>
-          <button type="button" class="icon-btn" id="drawerClose" aria-label="Chiudi"></button>
+          <button
+            type="button"
+            class="icon-btn"
+            id="drawerClose"
+            aria-label="Chiudi"
+          ></button>
         </header>
         <div class="drawer-body" id="fields"></div>
         <footer>
@@ -73,10 +100,15 @@
     </aside>
     <div class="palette-scrim" id="pScrim">
       <div class="palette" role="dialog" aria-label="Cerca">
-        <input id="pInput" placeholder="Vai a una categoria o a una sezione" autocomplete="off" />
+        <input
+          id="pInput"
+          placeholder="Vai a una categoria o a una sezione"
+          autocomplete="off"
+        />
         <ul id="pList"></ul>
         <footer>
-          <span><kbd>↑</kbd><kbd>↓</kbd> naviga</span><span><kbd>Invio</kbd> apri</span><span><kbd>Esc</kbd> chiudi</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> naviga</span
+          ><span><kbd>Invio</kbd> apri</span><span><kbd>Esc</kbd> chiudi</span>
         </footer>
       </div>
     </div>

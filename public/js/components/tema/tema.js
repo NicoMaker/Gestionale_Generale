@@ -31,10 +31,16 @@ export function initTema() {
     applica(temaCorrente() === "dark" ? "light" : "dark");
   // segue il sistema finché l'utente non ha scelto a mano
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-    if (!localStorage.getItem("theme")) applica(e.matches ? "dark" : "light", false);
+    if (!localStorage.getItem("theme"))
+      applica(e.matches ? "dark" : "light", false);
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key.toLowerCase() === "t" && !e.ctrlKey && !e.metaKey && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName))
+    if (
+      e.key.toLowerCase() === "t" &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)
+    )
       $("#themeBtn").click();
   });
 }

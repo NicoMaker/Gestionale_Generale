@@ -12,27 +12,45 @@ const t = { page: 1, q: "", name: "", meta: null };
 function cella(c, r) {
   const v = r[c.name];
   if (c.pk) return `<td class="id">#${v}</td>`;
-  if (v === null || v === undefined || v === "") return '<td class="muted">–</td>';
-  if (c.name === "nome") return `<td><span class="who">${avatar(v)}<b>${esc(v)}</b></span></td>`;
+  if (v === null || v === undefined || v === "")
+    return '<td class="muted">–</td>';
+  if (c.name === "nome")
+    return `<td><span class="who">${avatar(v)}<b>${esc(v)}</b></span></td>`;
   if (c.name === "codice") return `<td><b>${esc(v)}</b></td>`;
-  if (c.fk) return `<td><span class="fk">${esc(r[c.name + "__label"] ?? "#" + v)}</span></td>`;
-  if (c.type === "bool") return `<td><span class="badge ${v ? "ok" : ""}">${v ? "Sì" : "No"}</span></td>`;
-  if (c.type === "real") return `<td class="num">${Number(v).toLocaleString("it-IT", { minimumFractionDigits: 2 })}</td>`;
-  if (c.name === "created_at") return `<td class="muted">${esc(String(v).slice(0, 10).split("-").reverse().join("/"))}</td>`;
-  if (c.name === "colore") return `<td><span class="fk" style="background:${esc(v)}22;color:${esc(v)}">${esc(v)}</span></td>`;
+  if (c.fk)
+    return `<td><span class="fk">${esc(r[c.name + "__label"] ?? "#" + v)}</span></td>`;
+  if (c.type === "bool")
+    return `<td><span class="badge ${v ? "ok" : ""}">${v ? "Sì" : "No"}</span></td>`;
+  if (c.type === "real")
+    return `<td class="num">${Number(v).toLocaleString("it-IT", { minimumFractionDigits: 2 })}</td>`;
+  if (c.name === "created_at")
+    return `<td class="muted">${esc(String(v).slice(0, 10).split("-").reverse().join("/"))}</td>`;
+  if (c.name === "colore")
+    return `<td><span class="fk" style="background:${esc(v)}22;color:${esc(v)}">${esc(v)}</span></td>`;
   if (/^(aperto|chiuso|annullato)$/i.test(v))
     return `<td><span class="badge ${/aperto/i.test(v) ? "ok" : /annullato/i.test(v) ? "bad" : ""}">${esc(v)}</span></td>`;
   return `<td>${esc(v)}</td>`;
 }
 
 async function carica() {
-  const d = await api(`/api/tables/${t.name}?page=${t.page}&limit=15&q=${encodeURIComponent(t.q)}`);
+  const d = await api(
+    `/api/tables/${t.name}?page=${t.page}&limit=15&q=${encodeURIComponent(t.q)}`,
+  );
   const cols = t.meta.columns;
   $("#grid").innerHTML =
     `<thead><tr>${cols.map((c) => `<th>${c.pk ? "ID" : esc(nice(c.name === "created_at" ? "creato_il" : c.name))}</th>`).join("")}<th></th></tr></thead><tbody>` +
-    d.rows.map((r) => `<tr>${cols.map((c) => cella(c, r).replace("<td", `<td data-label="${esc(c.pk ? "ID" : nice(c.name === "created_at" ? "creato_il" : c.name))}"`)).join("")}<td class="act">
-      <button class="btn sm" data-edit="${r.id}">${icona("modifica")}Modifica</button><button class="btn sm danger" data-del="${r.id}">${icona("elimina")}Elimina</button></td></tr>`).join("") + "</tbody>";
-  $("#vuoto").innerHTML = d.rows.length ? "" : `<div class="empty"><b>Nessun record</b>${t.q ? "Prova con un’altra ricerca." : "Crea il primo record con “Nuovo record”."}</div>`;
+    d.rows
+      .map(
+        (
+          r,
+        ) => `<tr>${cols.map((c) => cella(c, r).replace("<td", `<td data-label="${esc(c.pk ? "ID" : nice(c.name === "created_at" ? "creato_il" : c.name))}"`)).join("")}<td class="act">
+      <button class="btn sm" data-edit="${r.id}">${icona("modifica")}Modifica</button><button class="btn sm danger" data-del="${r.id}">${icona("elimina")}Elimina</button></td></tr>`,
+      )
+      .join("") +
+    "</tbody>";
+  $("#vuoto").innerHTML = d.rows.length
+    ? ""
+    : `<div class="empty"><b>Nessun record</b>${t.q ? "Prova con un’altra ricerca." : "Crea il primo record con “Nuovo record”."}</div>`;
   $("#total").textContent = `${fmt(d.total)} record`;
   $("#pageInfo").textContent = `Pagina ${d.page} di ${d.pages}`;
   $("#prev").disabled = d.page <= 1;
@@ -67,11 +85,21 @@ export async function renderTabella(mod, suffix) {
   let timer;
   $("#search").oninput = (e) => {
     clearTimeout(timer);
-    timer = setTimeout(() => { t.q = e.target.value; t.page = 1; carica(); }, 250);
+    timer = setTimeout(() => {
+      t.q = e.target.value;
+      t.page = 1;
+      carica();
+    }, 250);
   };
   $("#addBtn").onclick = () => apriForm(t.name, t.meta, null, carica);
-  $("#prev").onclick = () => { t.page--; carica(); };
-  $("#next").onclick = () => { t.page++; carica(); };
+  $("#prev").onclick = () => {
+    t.page--;
+    carica();
+  };
+  $("#next").onclick = () => {
+    t.page++;
+    carica();
+  };
   $("#grid").onclick = async (e) => {
     const b = e.target.closest("button");
     if (!b) return;
@@ -81,7 +109,9 @@ export async function renderTabella(mod, suffix) {
         await api(`/api/tables/${t.name}/${b.dataset.del}`, "DELETE");
         toast("Record eliminato");
         carica();
-      } catch (err) { toast(err.message, true); }
+      } catch (err) {
+        toast(err.message, true);
+      }
     }
   };
   carica();

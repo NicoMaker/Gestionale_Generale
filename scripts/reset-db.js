@@ -2,7 +2,8 @@
 import { rmSync } from "node:fs";
 import { join } from "node:path";
 
-const p = process.env.DB_PATH ?? join(import.meta.dirname, "../data/gestionale.db");
+const p =
+  process.env.DB_PATH ?? join(import.meta.dirname, "../data/gestionale.db");
 for (const f of [p, `${p}-wal`, `${p}-shm`]) rmSync(f, { force: true });
 
 try {

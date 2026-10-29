@@ -229,4 +229,3 @@ export function buildTables() {
   }
   return tables;
 }
-

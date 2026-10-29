@@ -18,7 +18,8 @@
   --warn-bg: #eef0f6;
   --bad: #d8384a;
   --bad-bg: #fde8ea;
-  --shadow: 0 1px 2px rgba(22, 26, 43, 0.05), 0 8px 24px -12px rgba(22, 26, 43, 0.12);
+  --shadow:
+    0 1px 2px rgba(22, 26, 43, 0.05), 0 8px 24px -12px rgba(22, 26, 43, 0.12);
   --radius: 14px;
   color-scheme: light;
 }
@@ -42,26 +43,61 @@
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
-  font: 14px/1.5 "Manrope", system-ui, sans-serif;
+  font:
+    14px/1.5 "Manrope",
+    system-ui,
+    sans-serif;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   background:
-    radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+    radial-gradient(
+      900px 500px at 85% -10%,
+      color-mix(in srgb, var(--accent) 14%, transparent),
+      transparent 60%
+    ),
     var(--bg);
   background-attachment: fixed;
 }
-body.no-scroll { overflow: hidden; }
-button, input, select { font: inherit; color: inherit; }
-button { cursor: pointer; }
-a { color: inherit; text-decoration: none; }
-code { padding: 1px 6px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); font-size: 12.5px; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+body.no-scroll {
+  overflow: hidden;
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 kbd {
-  font: 600 11px/1 "Manrope", sans-serif;
+  font:
+    600 11px/1 "Manrope",
+    sans-serif;
   padding: 3px 6px;
   border-radius: 6px;
   border: 1px solid var(--line);
@@ -69,5 +105,8 @@ kbd {
   color: var(--muted);
 }
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

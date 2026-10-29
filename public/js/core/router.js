@@ -10,9 +10,7 @@ export const go = (mod, suffix) => {
 export const parse = () => {
   const [mod, suffix] = location.hash.replace(/^#\/?/, "").split("/");
   if (!mod) return { view: "home" };
-  return suffix
-    ? { view: "tabella", mod, suffix }
-    : { view: "modulo", mod };
+  return suffix ? { view: "tabella", mod, suffix } : { view: "modulo", mod };
 };
 
 export const onRoute = (fn) => {

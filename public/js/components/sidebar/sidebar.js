@@ -50,12 +50,14 @@ export function renderSidebar() {
     })
     .join("");
   $("#navHome").classList.toggle("active", r.view === "home");
-  $("#modList").querySelector(".sub.active, .grp-head.active")
+  $("#modList")
+    .querySelector(".sub.active, .grp-head.active")
     ?.scrollIntoView({ block: "nearest" });
 }
 
 export function initSidebar() {
-  $("#navHome").innerHTML = `${icona("dashboard", "nav-ico")}<span>Panoramica</span>`;
+  $("#navHome").innerHTML =
+    `${icona("dashboard", "nav-ico")}<span>Panoramica</span>`;
   $("#modFilter").oninput = renderSidebar;
   $("#menuBtn").innerHTML = icona("menu");
   $("#menuBtn").onclick = apriMenu;
@@ -63,21 +65,33 @@ export function initSidebar() {
   $("#menuClose").innerHTML = icona("chiudi");
   $("#menuClose").onclick = chiudiMenu;
   // gesti touch: swipe a sinistra chiude il menu, swipe a destra dal bordo lo apre
-  let x0 = null, y0 = 0;
-  document.addEventListener("touchstart", (e) => {
-    const t = e.touches[0];
-    x0 = t.clientX; y0 = t.clientY;
-  }, { passive: true });
-  document.addEventListener("touchend", (e) => {
-    if (x0 === null) return;
-    const t = e.changedTouches[0], dx = t.clientX - x0, dy = Math.abs(t.clientY - y0);
-    const aperto = $("#sidebar").classList.contains("open");
-    if (dy < 50 && innerWidth <= 860) {
-      if (aperto && dx < -60) chiudiMenu();
-      else if (!aperto && x0 < 24 && dx > 70) apriMenu();
-    }
-    x0 = null;
-  }, { passive: true });
+  let x0 = null,
+    y0 = 0;
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      const t = e.touches[0];
+      x0 = t.clientX;
+      y0 = t.clientY;
+    },
+    { passive: true },
+  );
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      if (x0 === null) return;
+      const t = e.changedTouches[0],
+        dx = t.clientX - x0,
+        dy = Math.abs(t.clientY - y0);
+      const aperto = $("#sidebar").classList.contains("open");
+      if (dy < 50 && innerWidth <= 860) {
+        if (aperto && dx < -60) chiudiMenu();
+        else if (!aperto && x0 < 24 && dx > 70) apriMenu();
+      }
+      x0 = null;
+    },
+    { passive: true },
+  );
   $("#navHome").onclick = () => {
     go();
     chiudiMenu();
@@ -86,7 +100,9 @@ export function initSidebar() {
     const t = e.target.closest("[data-toggle]");
     if (t) {
       const id = t.dataset.toggle;
-      state.openMods.has(id) ? state.openMods.delete(id) : state.openMods.add(id);
+      state.openMods.has(id)
+        ? state.openMods.delete(id)
+        : state.openMods.add(id);
       return renderSidebar();
     }
     const o = e.target.closest("[data-open]");

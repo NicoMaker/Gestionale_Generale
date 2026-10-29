@@ -81,13 +81,20 @@ function render(input, outBase, opts = {}) {
       bin,
       [
         "-q",
-        "-p", pupCfg,
-        "-c", mmCfg,
-        "-i", input,
-        "-o", out,
-        "-t", v.theme,
-        "-b", v.bg,
-        "-s", String(opts.scale || 2),
+        "-p",
+        pupCfg,
+        "-c",
+        mmCfg,
+        "-i",
+        input,
+        "-o",
+        out,
+        "-t",
+        v.theme,
+        "-b",
+        v.bg,
+        "-s",
+        String(opts.scale || 2),
       ],
       { stdio: "pipe", shell: process.platform === "win32", encoding: "utf8" },
     );
@@ -124,4 +131,6 @@ if (withFull) {
 }
 
 fs.rmSync(tmp, { recursive: true, force: true });
-console.log(`PNG generati in img/ (${ok}/${mods.length} moduli, chiaro + scuro).`);
+console.log(
+  `PNG generati in img/ (${ok}/${mods.length} moduli, chiaro + scuro).`,
+);

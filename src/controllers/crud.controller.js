@@ -76,7 +76,8 @@ export const stats = async (req, res) => {
 // Opzioni di un modulo: ogni tabella con il numero di record (dashboard del modulo)
 export const moduleSummary = async (req, res) => {
   const id = req.params.id;
-  if (!MODULES[id]) return res.status(404).json({ error: "Modulo inesistente" });
+  if (!MODULES[id])
+    return res.status(404).json({ error: "Modulo inesistente" });
   const list = tables.filter((t) => t.module === id);
   const items = await Promise.all(
     list.map(async (t) => ({
@@ -117,4 +118,3 @@ export const dashboard = async (req, res) => {
   );
   res.json({ monthly, stati });
 };
-
