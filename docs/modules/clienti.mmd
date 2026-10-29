@@ -1,0 +1,167 @@
+erDiagram
+  clienti_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  clienti_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  clienti_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  clienti_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  clienti_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  clienti_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  clienti_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  clienti_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  clienti_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  clienti_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  clienti_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  clienti_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  clienti_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  clienti_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  clienti_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  clienti_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  clienti_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  clienti_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  clienti_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  clienti_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  clienti_categorie |o--o{ clienti_categorie : "parent_id"
+  clienti_tipi |o--o{ clienti_anagrafica : "tipo_id"
+  clienti_categorie |o--o{ clienti_anagrafica : "categoria_id"
+  clienti_stati |o--o{ clienti_anagrafica : "stato_id"
+  clienti_anagrafica ||--o{ clienti_contatti : "anagrafica_id"
+  clienti_anagrafica ||--o{ clienti_indirizzi : "anagrafica_id"
+  clienti_anagrafica |o--o{ clienti_documenti : "anagrafica_id"
+  clienti_stati |o--o{ clienti_documenti : "stato_id"
+  clienti_documenti ||--o{ clienti_righe_documento : "documento_id"
+  clienti_anagrafica |o--o{ clienti_movimenti : "anagrafica_id"
+  clienti_documenti |o--o{ clienti_allegati : "documento_id"
+  clienti_anagrafica |o--o{ clienti_note : "anagrafica_id"
+  clienti_documenti |o--o{ clienti_scadenze : "documento_id"
+  clienti_tipi |o--o{ clienti_tariffe : "tipo_id"
+  clienti_anagrafica |o--o{ clienti_log : "anagrafica_id"
+  clienti_anagrafica |o--o{ clienti_assegnazioni : "anagrafica_id"
+  clienti_anagrafica ||--o{ clienti_anagrafica_tag : "anagrafica_id"
+  clienti_tag ||--o{ clienti_anagrafica_tag : "tag_id"

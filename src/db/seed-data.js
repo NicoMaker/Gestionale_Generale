@@ -1,0 +1,160 @@
+// Dati di partenza per modulo: tipi | categorie | anagrafica (8) | righe/articoli (4)
+const row = (tipi, cat, anag, art) => ({
+  tipi: tipi.split("|"),
+  cat: cat.split("|"),
+  anag: anag.split("|"),
+  art: art.split("|"),
+});
+
+module.exports = {
+  vendite: row(
+    "Dettaglio|Ingrosso|Online",
+    "Abbigliamento|Elettronica|Arredo",
+    "Boutique Aurora|Elettrocasa Bianchi|Arredamenti Conti|Sport Point Verona|Ottica Moretti|Libreria Il Faro|Gioielli Ferrari|Calzature Marini",
+    "Giacca invernale|Smartphone 128GB|Divano due posti|Scarpe running",
+  ),
+  acquisti: row(
+    "Materie prime|Servizi|Beni strumentali",
+    "Metalli|Imballaggi|Informatica",
+    "Acciaierie Bergamasche|Cartotecnica Lombarda|Tecnoforniture Srl|Plastica Veneta|Ferramenta Colombo|Informatica Futura|Lubrificanti Rizzo|Imballi Express",
+    "Lamiera zincata 2mm|Scatole cartone 40x30|Notebook 15 pollici|Granulato PVC",
+  ),
+  magazzino: row(
+    "Deposito centrale|Deposito esterno|Reparto picking",
+    "Ricambi|Prodotti finiti|Semilavorati",
+    "Scaffale A-01|Scaffale A-02|Scaffale B-07|Zona refrigerata|Baia carico 3|Area resi|Scaffale C-12|Magazzino Nord",
+    "Cuscinetto 6204|Filtro olio|Kit guarnizioni|Cinghia dentata",
+  ),
+  contabilita: row(
+    "Generale|Analitica|Cespiti",
+    "Ricavi|Costi|Patrimoniale",
+    "Cassa contanti|Banca c/c principale|Crediti vs clienti|Debiti vs fornitori|Ricavi vendite|Costi per servizi|Capitale sociale|IVA a credito",
+    "Registrazione prima nota|Scrittura di rettifica|Giroconto|Chiusura mensile",
+  ),
+  fatturazione: row(
+    "Fattura immediata|Fattura differita|Nota di credito",
+    "Italia|UE|Extra UE",
+    "Elettra Srl|Gamma SpA|Studio Verdi|Impresa Edile Longo|Panificio San Marco|Agenzia Viaggi Sole|Officina Fontana|Hotel Belvedere",
+    "Canone mensile|Consulenza oraria|Fornitura merce|Spese di spedizione",
+  ),
+  clienti: row(
+    "Privato|Azienda|Pubblica amministrazione",
+    "Nord|Centro|Sud",
+    "Mario Rossi|Giulia Bianchi|Studio Legale Romano|Comune di Brescia|Tecno Service Srl|Francesca Esposito|Alberto Gallo|Pasticceria Dolce Vita",
+    "Abbonamento annuale|Assistenza ordinaria|Fornitura prodotti|Installazione",
+  ),
+  fornitori: row(
+    "Strategico|Occasionale|Qualificato",
+    "Italia|Europa|Extra UE",
+    "Metalmeccanica Ricci|Trasporti Lombardi|Energia Verde SpA|Cancelleria Pavan|Software House Nova|Vetreria Murano|Tessuti Biellesi|Pulizie Brillante",
+    "Fornitura trimestrale|Manutenzione impianto|Licenza software|Materiale di consumo",
+  ),
+  risorse_umane: row(
+    "Tempo indeterminato|Tempo determinato|Apprendistato",
+    "Amministrazione|Produzione|Commerciale",
+    "Luca Ferrari|Chiara Romano|Davide Colombo|Elena Ricci|Matteo Greco|Sara Fontana|Andrea Bruno|Martina De Luca",
+    "Visita medica|Corso sicurezza|Valutazione annuale|Trasferta",
+  ),
+  paghe: row(
+    "Mensile|Tredicesima|Premio produzione",
+    "Operai|Impiegati|Quadri",
+    "Cedolino Gennaio|Cedolino Febbraio|Cedolino Marzo|Cedolino Aprile|Cedolino Maggio|Cedolino Giugno|Cedolino Luglio|Cedolino Agosto",
+    "Retribuzione base|Straordinari|Contributi INPS|Ritenute IRPEF",
+  ),
+  produzione: row(
+    "Serie|Su commessa|Prototipo",
+    "Linea 1|Linea 2|Linea 3",
+    "OP-101 Telai|OP-102 Carter|OP-103 Staffe|OP-104 Pannelli|OP-105 Motori|OP-106 Valvole|OP-107 Pompe|OP-108 Flange",
+    "Taglio laser|Saldatura|Assemblaggio|Collaudo finale",
+  ),
+  qualita: row(
+    "Audit interno|Audit fornitore|Controllo lotto",
+    "ISO 9001|ISO 14001|Sicurezza",
+    "NC-001 Difetto vernice|NC-002 Fuori tolleranza|NC-003 Imballo danneggiato|NC-004 Ritardo consegna|AC-001 Azione correttiva|AC-002 Revisione procedura|NC-005 Etichetta errata|NC-006 Lotto non conforme",
+    "Ispezione visiva|Misura dimensionale|Prova di tenuta|Verifica documentale",
+  ),
+  logistica: row(
+    "Nazionale|Internazionale|Express",
+    "Centro nord|Centro sud|Isole",
+    "Hub Milano Est|Hub Bologna|Hub Roma Sud|Hub Napoli|Hub Torino|Hub Padova|Hub Bari|Hub Catania",
+    "Pallet standard|Collo 20kg|Spedizione express|Stoccaggio mensile",
+  ),
+  trasporti: row(
+    "Furgone|Autoarticolato|Corriere",
+    "Urbano|Extraurbano|Estero",
+    "Iveco Daily AB123CD|Mercedes Sprinter EF456GH|Scania R450 IL789MN|Fiat Ducato OP012QR|Renault Master ST345UV|Volvo FH WX678YZ|MAN TGX AA901BB|Ford Transit CC234DD",
+    "Pedaggio autostradale|Carburante|Manutenzione ordinaria|Assicurazione",
+  ),
+  progetti: row(
+    "Interno|Cliente|Ricerca",
+    "Software|Impianti|Consulenza",
+    "Portale clienti|Migrazione cloud|App mobile|Magazzino automatico|Sito e-commerce|Analisi dati vendite|Rinnovo uffici|Certificazione ISO",
+    "Analisi requisiti|Sviluppo|Test|Rilascio",
+  ),
+  commesse: row(
+    "Fissa|A consuntivo|Ricorrente",
+    "Edilizia|Impiantistica|Servizi",
+    "Scuola Primaria|Ospedale Nord|Capannone Zeta|Residenza Alba|Ponte sul Po|Biblioteca civica|Centro Sportivo|Ufficio Delta",
+    "Manodopera|Materiali|Noli macchinari|Subappalto",
+  ),
+  assistenza: row(
+    "Ticket|Intervento in sede|Garanzia",
+    "Hardware|Software|Rete",
+    "Ticket 1001 Stampante ferma|Ticket 1002 Password dimenticata|Ticket 1003 Server lento|Ticket 1004 Rete Wi-Fi|Ticket 1005 Errore fatturazione|Ticket 1006 Nuovo utente|Ticket 1007 Backup fallito|Ticket 1008 Schermo rotto",
+    "Diagnosi|Sostituzione componente|Aggiornamento software|Uscita tecnico",
+  ),
+  crm: row(
+    "Lead|Opportunità|Cliente acquisito",
+    "Sito web|Fiera|Passaparola",
+    "Pasticceria Rossi|Studio Conti|Hotel Riviera|Farmacia Centrale|Cantina Soave|Palestra Energy|Agriturismo Colli|Autoscuola Roma",
+    "Demo prodotto|Preventivo|Follow-up telefonico|Contratto annuale",
+  ),
+  marketing: row(
+    "Email|Social|Evento",
+    "Primavera|Estate|Black Friday",
+    "Newsletter di ottobre|Campagna Instagram autunno|Webinar nuovi prodotti|Fiera di settore|Concorso a premi|Campagna Google Ads|Volantino Natale|Podcast aziendale",
+    "Creatività grafica|Inserzione a pagamento|Stampa materiali|Allestimento stand",
+  ),
+  ecommerce: row(
+    "Ordine web|Reso|Abbonamento",
+    "Novità|Offerte|Bestseller",
+    "Ordine WEB-2001|Ordine WEB-2002|Ordine WEB-2003|Ordine WEB-2004|Ordine WEB-2005|Ordine WEB-2006|Ordine WEB-2007|Ordine WEB-2008",
+    "Cuffie wireless|Zaino urbano|Caricatore rapido|Orologio smart",
+  ),
+  tesoreria: row(
+    "Bonifico|Riba|Assegno",
+    "Incassi|Pagamenti|Investimenti",
+    "Intesa Sanpaolo c/c 01|UniCredit c/c 02|Banco BPM c/c 03|Cassa piccola|Carta aziendale|BPER c/c 04|Conto deposito|PayPal business",
+    "Bonifico SEPA|Commissioni bancarie|Interessi attivi|Pagamento F24",
+  ),
+  cespiti: row(
+    "Materiale|Immateriale|Leasing",
+    "Macchinari|Automezzi|Hardware",
+    "Centro di lavoro CNC|Carrello elevatore|Server Dell R750|Furgone aziendale|Stampante industriale|Licenza ERP|Impianto fotovoltaico|Muletto elettrico",
+    "Quota ammortamento|Manutenzione straordinaria|Rivalutazione|Dismissione",
+  ),
+  budget: row(
+    "Annuale|Trimestrale|Progetto",
+    "Ricavi|Costi diretti|Investimenti",
+    "Budget vendite 2026|Budget acquisti 2026|Budget personale|Budget marketing|Budget IT|Budget produzione|Budget logistica|Budget formazione",
+    "Previsione primo trimestre|Previsione secondo trimestre|Consuntivo|Scostamento",
+  ),
+  sicurezza: row(
+    "Formazione|Ispezione|Infortunio",
+    "D.Lgs 81|Antincendio|Primo soccorso",
+    "Corso antincendio|Corso primo soccorso|Ispezione capannone|Verifica estintori|Aggiornamento DVR|Visita medico competente|Simulazione evacuazione|Controllo DPI",
+    "Docenza|Materiali didattici|Verifica strumentale|Report finale",
+  ),
+  documentale: row(
+    "Contratto|Procedura|Certificato",
+    "Legale|Tecnico|Amministrativo",
+    "Contratto di locazione|Procedura acquisti|Certificato ISO 9001|Polizza assicurativa|Manuale operativo|Statuto societario|Visura camerale|Regolamento interno",
+    "Revisione|Firma digitale|Archiviazione|Protocollo",
+  ),
+  amministrazione: row(
+    "Societario|Fiscale|Generale",
+    "Adempimenti|Riunioni|Contratti",
+    "Assemblea soci|Consiglio di amministrazione|Dichiarazione IVA|Bilancio d'esercizio|Rinnovo PEC|Diritto camerale|Registro imprese|Privacy GDPR",
+    "Diritti di segreteria|Consulenza commercialista|Marca da bollo|Bolli e imposte",
+  ),
+};

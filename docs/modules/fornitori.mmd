@@ -1,0 +1,167 @@
+erDiagram
+  fornitori_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  fornitori_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  fornitori_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  fornitori_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  fornitori_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  fornitori_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  fornitori_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  fornitori_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  fornitori_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  fornitori_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  fornitori_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  fornitori_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  fornitori_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  fornitori_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  fornitori_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  fornitori_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  fornitori_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  fornitori_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  fornitori_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  fornitori_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  fornitori_categorie |o--o{ fornitori_categorie : "parent_id"
+  fornitori_tipi |o--o{ fornitori_anagrafica : "tipo_id"
+  fornitori_categorie |o--o{ fornitori_anagrafica : "categoria_id"
+  fornitori_stati |o--o{ fornitori_anagrafica : "stato_id"
+  fornitori_anagrafica ||--o{ fornitori_contatti : "anagrafica_id"
+  fornitori_anagrafica ||--o{ fornitori_indirizzi : "anagrafica_id"
+  fornitori_anagrafica |o--o{ fornitori_documenti : "anagrafica_id"
+  fornitori_stati |o--o{ fornitori_documenti : "stato_id"
+  fornitori_documenti ||--o{ fornitori_righe_documento : "documento_id"
+  fornitori_anagrafica |o--o{ fornitori_movimenti : "anagrafica_id"
+  fornitori_documenti |o--o{ fornitori_allegati : "documento_id"
+  fornitori_anagrafica |o--o{ fornitori_note : "anagrafica_id"
+  fornitori_documenti |o--o{ fornitori_scadenze : "documento_id"
+  fornitori_tipi |o--o{ fornitori_tariffe : "tipo_id"
+  fornitori_anagrafica |o--o{ fornitori_log : "anagrafica_id"
+  fornitori_anagrafica |o--o{ fornitori_assegnazioni : "anagrafica_id"
+  fornitori_anagrafica ||--o{ fornitori_anagrafica_tag : "anagrafica_id"
+  fornitori_tag ||--o{ fornitori_anagrafica_tag : "tag_id"

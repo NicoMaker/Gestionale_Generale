@@ -1,0 +1,167 @@
+erDiagram
+  ecommerce_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  ecommerce_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  ecommerce_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  ecommerce_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  ecommerce_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  ecommerce_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  ecommerce_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  ecommerce_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  ecommerce_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  ecommerce_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  ecommerce_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  ecommerce_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  ecommerce_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  ecommerce_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  ecommerce_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  ecommerce_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  ecommerce_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  ecommerce_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  ecommerce_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  ecommerce_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  ecommerce_categorie |o--o{ ecommerce_categorie : "parent_id"
+  ecommerce_tipi |o--o{ ecommerce_anagrafica : "tipo_id"
+  ecommerce_categorie |o--o{ ecommerce_anagrafica : "categoria_id"
+  ecommerce_stati |o--o{ ecommerce_anagrafica : "stato_id"
+  ecommerce_anagrafica ||--o{ ecommerce_contatti : "anagrafica_id"
+  ecommerce_anagrafica ||--o{ ecommerce_indirizzi : "anagrafica_id"
+  ecommerce_anagrafica |o--o{ ecommerce_documenti : "anagrafica_id"
+  ecommerce_stati |o--o{ ecommerce_documenti : "stato_id"
+  ecommerce_documenti ||--o{ ecommerce_righe_documento : "documento_id"
+  ecommerce_anagrafica |o--o{ ecommerce_movimenti : "anagrafica_id"
+  ecommerce_documenti |o--o{ ecommerce_allegati : "documento_id"
+  ecommerce_anagrafica |o--o{ ecommerce_note : "anagrafica_id"
+  ecommerce_documenti |o--o{ ecommerce_scadenze : "documento_id"
+  ecommerce_tipi |o--o{ ecommerce_tariffe : "tipo_id"
+  ecommerce_anagrafica |o--o{ ecommerce_log : "anagrafica_id"
+  ecommerce_anagrafica |o--o{ ecommerce_assegnazioni : "anagrafica_id"
+  ecommerce_anagrafica ||--o{ ecommerce_anagrafica_tag : "anagrafica_id"
+  ecommerce_tag ||--o{ ecommerce_anagrafica_tag : "tag_id"

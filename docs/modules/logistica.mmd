@@ -1,0 +1,167 @@
+erDiagram
+  logistica_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  logistica_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  logistica_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  logistica_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  logistica_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  logistica_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  logistica_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  logistica_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  logistica_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  logistica_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  logistica_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  logistica_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  logistica_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  logistica_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  logistica_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  logistica_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  logistica_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  logistica_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  logistica_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  logistica_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  logistica_categorie |o--o{ logistica_categorie : "parent_id"
+  logistica_tipi |o--o{ logistica_anagrafica : "tipo_id"
+  logistica_categorie |o--o{ logistica_anagrafica : "categoria_id"
+  logistica_stati |o--o{ logistica_anagrafica : "stato_id"
+  logistica_anagrafica ||--o{ logistica_contatti : "anagrafica_id"
+  logistica_anagrafica ||--o{ logistica_indirizzi : "anagrafica_id"
+  logistica_anagrafica |o--o{ logistica_documenti : "anagrafica_id"
+  logistica_stati |o--o{ logistica_documenti : "stato_id"
+  logistica_documenti ||--o{ logistica_righe_documento : "documento_id"
+  logistica_anagrafica |o--o{ logistica_movimenti : "anagrafica_id"
+  logistica_documenti |o--o{ logistica_allegati : "documento_id"
+  logistica_anagrafica |o--o{ logistica_note : "anagrafica_id"
+  logistica_documenti |o--o{ logistica_scadenze : "documento_id"
+  logistica_tipi |o--o{ logistica_tariffe : "tipo_id"
+  logistica_anagrafica |o--o{ logistica_log : "anagrafica_id"
+  logistica_anagrafica |o--o{ logistica_assegnazioni : "anagrafica_id"
+  logistica_anagrafica ||--o{ logistica_anagrafica_tag : "anagrafica_id"
+  logistica_tag ||--o{ logistica_anagrafica_tag : "tag_id"

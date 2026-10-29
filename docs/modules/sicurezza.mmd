@@ -1,0 +1,167 @@
+erDiagram
+  sicurezza_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  sicurezza_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  sicurezza_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  sicurezza_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  sicurezza_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  sicurezza_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  sicurezza_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  sicurezza_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  sicurezza_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  sicurezza_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  sicurezza_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  sicurezza_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  sicurezza_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  sicurezza_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  sicurezza_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  sicurezza_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  sicurezza_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  sicurezza_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  sicurezza_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  sicurezza_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  sicurezza_categorie |o--o{ sicurezza_categorie : "parent_id"
+  sicurezza_tipi |o--o{ sicurezza_anagrafica : "tipo_id"
+  sicurezza_categorie |o--o{ sicurezza_anagrafica : "categoria_id"
+  sicurezza_stati |o--o{ sicurezza_anagrafica : "stato_id"
+  sicurezza_anagrafica ||--o{ sicurezza_contatti : "anagrafica_id"
+  sicurezza_anagrafica ||--o{ sicurezza_indirizzi : "anagrafica_id"
+  sicurezza_anagrafica |o--o{ sicurezza_documenti : "anagrafica_id"
+  sicurezza_stati |o--o{ sicurezza_documenti : "stato_id"
+  sicurezza_documenti ||--o{ sicurezza_righe_documento : "documento_id"
+  sicurezza_anagrafica |o--o{ sicurezza_movimenti : "anagrafica_id"
+  sicurezza_documenti |o--o{ sicurezza_allegati : "documento_id"
+  sicurezza_anagrafica |o--o{ sicurezza_note : "anagrafica_id"
+  sicurezza_documenti |o--o{ sicurezza_scadenze : "documento_id"
+  sicurezza_tipi |o--o{ sicurezza_tariffe : "tipo_id"
+  sicurezza_anagrafica |o--o{ sicurezza_log : "anagrafica_id"
+  sicurezza_anagrafica |o--o{ sicurezza_assegnazioni : "anagrafica_id"
+  sicurezza_anagrafica ||--o{ sicurezza_anagrafica_tag : "anagrafica_id"
+  sicurezza_tag ||--o{ sicurezza_anagrafica_tag : "tag_id"

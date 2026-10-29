@@ -1,0 +1,167 @@
+erDiagram
+  budget_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  budget_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  budget_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  budget_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  budget_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  budget_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  budget_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  budget_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  budget_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  budget_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  budget_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  budget_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  budget_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  budget_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  budget_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  budget_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  budget_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  budget_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  budget_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  budget_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  budget_categorie |o--o{ budget_categorie : "parent_id"
+  budget_tipi |o--o{ budget_anagrafica : "tipo_id"
+  budget_categorie |o--o{ budget_anagrafica : "categoria_id"
+  budget_stati |o--o{ budget_anagrafica : "stato_id"
+  budget_anagrafica ||--o{ budget_contatti : "anagrafica_id"
+  budget_anagrafica ||--o{ budget_indirizzi : "anagrafica_id"
+  budget_anagrafica |o--o{ budget_documenti : "anagrafica_id"
+  budget_stati |o--o{ budget_documenti : "stato_id"
+  budget_documenti ||--o{ budget_righe_documento : "documento_id"
+  budget_anagrafica |o--o{ budget_movimenti : "anagrafica_id"
+  budget_documenti |o--o{ budget_allegati : "documento_id"
+  budget_anagrafica |o--o{ budget_note : "anagrafica_id"
+  budget_documenti |o--o{ budget_scadenze : "documento_id"
+  budget_tipi |o--o{ budget_tariffe : "tipo_id"
+  budget_anagrafica |o--o{ budget_log : "anagrafica_id"
+  budget_anagrafica |o--o{ budget_assegnazioni : "anagrafica_id"
+  budget_anagrafica ||--o{ budget_anagrafica_tag : "anagrafica_id"
+  budget_tag ||--o{ budget_anagrafica_tag : "tag_id"

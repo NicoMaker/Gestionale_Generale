@@ -1,0 +1,167 @@
+erDiagram
+  cespiti_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  cespiti_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  cespiti_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  cespiti_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  cespiti_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  cespiti_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  cespiti_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  cespiti_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  cespiti_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  cespiti_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  cespiti_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  cespiti_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  cespiti_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  cespiti_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  cespiti_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  cespiti_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  cespiti_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  cespiti_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  cespiti_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  cespiti_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  cespiti_categorie |o--o{ cespiti_categorie : "parent_id"
+  cespiti_tipi |o--o{ cespiti_anagrafica : "tipo_id"
+  cespiti_categorie |o--o{ cespiti_anagrafica : "categoria_id"
+  cespiti_stati |o--o{ cespiti_anagrafica : "stato_id"
+  cespiti_anagrafica ||--o{ cespiti_contatti : "anagrafica_id"
+  cespiti_anagrafica ||--o{ cespiti_indirizzi : "anagrafica_id"
+  cespiti_anagrafica |o--o{ cespiti_documenti : "anagrafica_id"
+  cespiti_stati |o--o{ cespiti_documenti : "stato_id"
+  cespiti_documenti ||--o{ cespiti_righe_documento : "documento_id"
+  cespiti_anagrafica |o--o{ cespiti_movimenti : "anagrafica_id"
+  cespiti_documenti |o--o{ cespiti_allegati : "documento_id"
+  cespiti_anagrafica |o--o{ cespiti_note : "anagrafica_id"
+  cespiti_documenti |o--o{ cespiti_scadenze : "documento_id"
+  cespiti_tipi |o--o{ cespiti_tariffe : "tipo_id"
+  cespiti_anagrafica |o--o{ cespiti_log : "anagrafica_id"
+  cespiti_anagrafica |o--o{ cespiti_assegnazioni : "anagrafica_id"
+  cespiti_anagrafica ||--o{ cespiti_anagrafica_tag : "anagrafica_id"
+  cespiti_tag ||--o{ cespiti_anagrafica_tag : "tag_id"

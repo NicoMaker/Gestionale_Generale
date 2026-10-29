@@ -1,0 +1,167 @@
+erDiagram
+  tesoreria_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  tesoreria_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  tesoreria_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  tesoreria_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  tesoreria_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  tesoreria_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  tesoreria_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  tesoreria_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  tesoreria_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  tesoreria_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  tesoreria_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  tesoreria_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  tesoreria_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  tesoreria_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  tesoreria_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  tesoreria_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  tesoreria_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  tesoreria_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  tesoreria_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  tesoreria_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  tesoreria_categorie |o--o{ tesoreria_categorie : "parent_id"
+  tesoreria_tipi |o--o{ tesoreria_anagrafica : "tipo_id"
+  tesoreria_categorie |o--o{ tesoreria_anagrafica : "categoria_id"
+  tesoreria_stati |o--o{ tesoreria_anagrafica : "stato_id"
+  tesoreria_anagrafica ||--o{ tesoreria_contatti : "anagrafica_id"
+  tesoreria_anagrafica ||--o{ tesoreria_indirizzi : "anagrafica_id"
+  tesoreria_anagrafica |o--o{ tesoreria_documenti : "anagrafica_id"
+  tesoreria_stati |o--o{ tesoreria_documenti : "stato_id"
+  tesoreria_documenti ||--o{ tesoreria_righe_documento : "documento_id"
+  tesoreria_anagrafica |o--o{ tesoreria_movimenti : "anagrafica_id"
+  tesoreria_documenti |o--o{ tesoreria_allegati : "documento_id"
+  tesoreria_anagrafica |o--o{ tesoreria_note : "anagrafica_id"
+  tesoreria_documenti |o--o{ tesoreria_scadenze : "documento_id"
+  tesoreria_tipi |o--o{ tesoreria_tariffe : "tipo_id"
+  tesoreria_anagrafica |o--o{ tesoreria_log : "anagrafica_id"
+  tesoreria_anagrafica |o--o{ tesoreria_assegnazioni : "anagrafica_id"
+  tesoreria_anagrafica ||--o{ tesoreria_anagrafica_tag : "anagrafica_id"
+  tesoreria_tag ||--o{ tesoreria_anagrafica_tag : "tag_id"

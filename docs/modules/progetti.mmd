@@ -1,0 +1,167 @@
+erDiagram
+  progetti_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  progetti_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  progetti_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  progetti_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  progetti_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  progetti_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  progetti_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  progetti_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  progetti_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  progetti_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  progetti_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  progetti_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  progetti_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  progetti_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  progetti_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  progetti_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  progetti_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  progetti_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  progetti_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  progetti_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  progetti_categorie |o--o{ progetti_categorie : "parent_id"
+  progetti_tipi |o--o{ progetti_anagrafica : "tipo_id"
+  progetti_categorie |o--o{ progetti_anagrafica : "categoria_id"
+  progetti_stati |o--o{ progetti_anagrafica : "stato_id"
+  progetti_anagrafica ||--o{ progetti_contatti : "anagrafica_id"
+  progetti_anagrafica ||--o{ progetti_indirizzi : "anagrafica_id"
+  progetti_anagrafica |o--o{ progetti_documenti : "anagrafica_id"
+  progetti_stati |o--o{ progetti_documenti : "stato_id"
+  progetti_documenti ||--o{ progetti_righe_documento : "documento_id"
+  progetti_anagrafica |o--o{ progetti_movimenti : "anagrafica_id"
+  progetti_documenti |o--o{ progetti_allegati : "documento_id"
+  progetti_anagrafica |o--o{ progetti_note : "anagrafica_id"
+  progetti_documenti |o--o{ progetti_scadenze : "documento_id"
+  progetti_tipi |o--o{ progetti_tariffe : "tipo_id"
+  progetti_anagrafica |o--o{ progetti_log : "anagrafica_id"
+  progetti_anagrafica |o--o{ progetti_assegnazioni : "anagrafica_id"
+  progetti_anagrafica ||--o{ progetti_anagrafica_tag : "anagrafica_id"
+  progetti_tag ||--o{ progetti_anagrafica_tag : "tag_id"

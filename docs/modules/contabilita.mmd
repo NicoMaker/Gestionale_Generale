@@ -1,0 +1,167 @@
+erDiagram
+  contabilita_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  contabilita_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  contabilita_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  contabilita_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  contabilita_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  contabilita_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  contabilita_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  contabilita_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  contabilita_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  contabilita_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  contabilita_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  contabilita_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  contabilita_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  contabilita_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  contabilita_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  contabilita_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  contabilita_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  contabilita_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  contabilita_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  contabilita_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  contabilita_categorie |o--o{ contabilita_categorie : "parent_id"
+  contabilita_tipi |o--o{ contabilita_anagrafica : "tipo_id"
+  contabilita_categorie |o--o{ contabilita_anagrafica : "categoria_id"
+  contabilita_stati |o--o{ contabilita_anagrafica : "stato_id"
+  contabilita_anagrafica ||--o{ contabilita_contatti : "anagrafica_id"
+  contabilita_anagrafica ||--o{ contabilita_indirizzi : "anagrafica_id"
+  contabilita_anagrafica |o--o{ contabilita_documenti : "anagrafica_id"
+  contabilita_stati |o--o{ contabilita_documenti : "stato_id"
+  contabilita_documenti ||--o{ contabilita_righe_documento : "documento_id"
+  contabilita_anagrafica |o--o{ contabilita_movimenti : "anagrafica_id"
+  contabilita_documenti |o--o{ contabilita_allegati : "documento_id"
+  contabilita_anagrafica |o--o{ contabilita_note : "anagrafica_id"
+  contabilita_documenti |o--o{ contabilita_scadenze : "documento_id"
+  contabilita_tipi |o--o{ contabilita_tariffe : "tipo_id"
+  contabilita_anagrafica |o--o{ contabilita_log : "anagrafica_id"
+  contabilita_anagrafica |o--o{ contabilita_assegnazioni : "anagrafica_id"
+  contabilita_anagrafica ||--o{ contabilita_anagrafica_tag : "anagrafica_id"
+  contabilita_tag ||--o{ contabilita_anagrafica_tag : "tag_id"

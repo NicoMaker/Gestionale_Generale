@@ -1,0 +1,167 @@
+erDiagram
+  magazzino_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  magazzino_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  magazzino_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  magazzino_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  magazzino_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  magazzino_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  magazzino_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  magazzino_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  magazzino_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  magazzino_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  magazzino_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  magazzino_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  magazzino_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  magazzino_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  magazzino_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  magazzino_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  magazzino_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  magazzino_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  magazzino_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  magazzino_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  magazzino_categorie |o--o{ magazzino_categorie : "parent_id"
+  magazzino_tipi |o--o{ magazzino_anagrafica : "tipo_id"
+  magazzino_categorie |o--o{ magazzino_anagrafica : "categoria_id"
+  magazzino_stati |o--o{ magazzino_anagrafica : "stato_id"
+  magazzino_anagrafica ||--o{ magazzino_contatti : "anagrafica_id"
+  magazzino_anagrafica ||--o{ magazzino_indirizzi : "anagrafica_id"
+  magazzino_anagrafica |o--o{ magazzino_documenti : "anagrafica_id"
+  magazzino_stati |o--o{ magazzino_documenti : "stato_id"
+  magazzino_documenti ||--o{ magazzino_righe_documento : "documento_id"
+  magazzino_anagrafica |o--o{ magazzino_movimenti : "anagrafica_id"
+  magazzino_documenti |o--o{ magazzino_allegati : "documento_id"
+  magazzino_anagrafica |o--o{ magazzino_note : "anagrafica_id"
+  magazzino_documenti |o--o{ magazzino_scadenze : "documento_id"
+  magazzino_tipi |o--o{ magazzino_tariffe : "tipo_id"
+  magazzino_anagrafica |o--o{ magazzino_log : "anagrafica_id"
+  magazzino_anagrafica |o--o{ magazzino_assegnazioni : "anagrafica_id"
+  magazzino_anagrafica ||--o{ magazzino_anagrafica_tag : "anagrafica_id"
+  magazzino_tag ||--o{ magazzino_anagrafica_tag : "tag_id"

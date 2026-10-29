@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestionale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand"><span class="logo">G</span><b>Gestionale</b></div>
+        <button class="nav-item" id="navHome">
+          <span class="ico">🏠</span>Panoramica
+        </button>
+        <div class="search-box">
+          <input id="modFilter" placeholder="Cerca modulo" autocomplete="off" />
+        </div>
+        <nav id="modList" class="mod-list"></nav>
+      </aside>
+      <div class="scrim" id="scrim"></div>
+
+      <div class="content">
+        <header class="topbar">
+          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Apri menu">
+            ☰
+          </button>
+          <div class="crumbs" id="crumbs"></div>
+          <button class="search-trigger" id="palBtn">
+            Cerca ovunque <kbd>Ctrl K</kbd>
+          </button>
+          <button class="icon-btn" id="themeBtn" aria-label="Cambia tema">
+            🌓
+          </button>
+        </header>
+        <main id="view"></main>
+      </div>
+    </div>
+
+    <div class="drawer-scrim" id="drawerScrim"></div>
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <form id="form" autocomplete="off">
+        <header>
+          <h3 id="drawerTitle"></h3>
+          <button
+            type="button"
+            class="icon-btn"
+            id="drawerClose"
+            aria-label="Chiudi"
+          >
+            ✕
+          </button>
+        </header>
+        <div class="drawer-body" id="fields"></div>
+        <footer>
+          <button type="button" class="btn" id="drawerCancel">Annulla</button>
+          <button type="submit" class="btn primary">Salva</button>
+        </footer>
+      </form>
+    </aside>
+    <div class="palette-scrim" id="pScrim">
+      <div class="palette" role="dialog" aria-label="Cerca">
+        <input
+          id="pInput"
+          placeholder="Vai a un modulo o a una tabella"
+          autocomplete="off"
+        />
+        <ul id="pList"></ul>
+        <footer>
+          <span><kbd>↑</kbd><kbd>↓</kbd> naviga</span
+          ><span><kbd>Invio</kbd> apri</span><span><kbd>Esc</kbd> chiudi</span>
+        </footer>
+      </div>
+    </div>
+    <div class="toasts" id="toasts"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

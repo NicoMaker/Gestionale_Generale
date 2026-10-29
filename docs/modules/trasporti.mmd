@@ -1,0 +1,167 @@
+erDiagram
+  trasporti_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  trasporti_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  trasporti_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  trasporti_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  trasporti_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  trasporti_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  trasporti_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  trasporti_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  trasporti_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  trasporti_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  trasporti_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  trasporti_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  trasporti_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  trasporti_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  trasporti_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  trasporti_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  trasporti_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  trasporti_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  trasporti_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  trasporti_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  trasporti_categorie |o--o{ trasporti_categorie : "parent_id"
+  trasporti_tipi |o--o{ trasporti_anagrafica : "tipo_id"
+  trasporti_categorie |o--o{ trasporti_anagrafica : "categoria_id"
+  trasporti_stati |o--o{ trasporti_anagrafica : "stato_id"
+  trasporti_anagrafica ||--o{ trasporti_contatti : "anagrafica_id"
+  trasporti_anagrafica ||--o{ trasporti_indirizzi : "anagrafica_id"
+  trasporti_anagrafica |o--o{ trasporti_documenti : "anagrafica_id"
+  trasporti_stati |o--o{ trasporti_documenti : "stato_id"
+  trasporti_documenti ||--o{ trasporti_righe_documento : "documento_id"
+  trasporti_anagrafica |o--o{ trasporti_movimenti : "anagrafica_id"
+  trasporti_documenti |o--o{ trasporti_allegati : "documento_id"
+  trasporti_anagrafica |o--o{ trasporti_note : "anagrafica_id"
+  trasporti_documenti |o--o{ trasporti_scadenze : "documento_id"
+  trasporti_tipi |o--o{ trasporti_tariffe : "tipo_id"
+  trasporti_anagrafica |o--o{ trasporti_log : "anagrafica_id"
+  trasporti_anagrafica |o--o{ trasporti_assegnazioni : "anagrafica_id"
+  trasporti_anagrafica ||--o{ trasporti_anagrafica_tag : "anagrafica_id"
+  trasporti_tag ||--o{ trasporti_anagrafica_tag : "tag_id"

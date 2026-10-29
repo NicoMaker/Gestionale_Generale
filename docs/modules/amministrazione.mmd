@@ -1,0 +1,167 @@
+erDiagram
+  amministrazione_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  amministrazione_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  amministrazione_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  amministrazione_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  amministrazione_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  amministrazione_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  amministrazione_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  amministrazione_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  amministrazione_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  amministrazione_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  amministrazione_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  amministrazione_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  amministrazione_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  amministrazione_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  amministrazione_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  amministrazione_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  amministrazione_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  amministrazione_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  amministrazione_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  amministrazione_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  amministrazione_categorie |o--o{ amministrazione_categorie : "parent_id"
+  amministrazione_tipi |o--o{ amministrazione_anagrafica : "tipo_id"
+  amministrazione_categorie |o--o{ amministrazione_anagrafica : "categoria_id"
+  amministrazione_stati |o--o{ amministrazione_anagrafica : "stato_id"
+  amministrazione_anagrafica ||--o{ amministrazione_contatti : "anagrafica_id"
+  amministrazione_anagrafica ||--o{ amministrazione_indirizzi : "anagrafica_id"
+  amministrazione_anagrafica |o--o{ amministrazione_documenti : "anagrafica_id"
+  amministrazione_stati |o--o{ amministrazione_documenti : "stato_id"
+  amministrazione_documenti ||--o{ amministrazione_righe_documento : "documento_id"
+  amministrazione_anagrafica |o--o{ amministrazione_movimenti : "anagrafica_id"
+  amministrazione_documenti |o--o{ amministrazione_allegati : "documento_id"
+  amministrazione_anagrafica |o--o{ amministrazione_note : "anagrafica_id"
+  amministrazione_documenti |o--o{ amministrazione_scadenze : "documento_id"
+  amministrazione_tipi |o--o{ amministrazione_tariffe : "tipo_id"
+  amministrazione_anagrafica |o--o{ amministrazione_log : "anagrafica_id"
+  amministrazione_anagrafica |o--o{ amministrazione_assegnazioni : "anagrafica_id"
+  amministrazione_anagrafica ||--o{ amministrazione_anagrafica_tag : "anagrafica_id"
+  amministrazione_tag ||--o{ amministrazione_anagrafica_tag : "tag_id"

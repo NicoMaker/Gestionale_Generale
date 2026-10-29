@@ -1,0 +1,167 @@
+erDiagram
+  acquisti_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  acquisti_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  acquisti_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  acquisti_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  acquisti_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  acquisti_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  acquisti_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  acquisti_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  acquisti_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  acquisti_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  acquisti_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  acquisti_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  acquisti_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  acquisti_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  acquisti_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  acquisti_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  acquisti_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  acquisti_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  acquisti_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  acquisti_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  acquisti_categorie |o--o{ acquisti_categorie : "parent_id"
+  acquisti_tipi |o--o{ acquisti_anagrafica : "tipo_id"
+  acquisti_categorie |o--o{ acquisti_anagrafica : "categoria_id"
+  acquisti_stati |o--o{ acquisti_anagrafica : "stato_id"
+  acquisti_anagrafica ||--o{ acquisti_contatti : "anagrafica_id"
+  acquisti_anagrafica ||--o{ acquisti_indirizzi : "anagrafica_id"
+  acquisti_anagrafica |o--o{ acquisti_documenti : "anagrafica_id"
+  acquisti_stati |o--o{ acquisti_documenti : "stato_id"
+  acquisti_documenti ||--o{ acquisti_righe_documento : "documento_id"
+  acquisti_anagrafica |o--o{ acquisti_movimenti : "anagrafica_id"
+  acquisti_documenti |o--o{ acquisti_allegati : "documento_id"
+  acquisti_anagrafica |o--o{ acquisti_note : "anagrafica_id"
+  acquisti_documenti |o--o{ acquisti_scadenze : "documento_id"
+  acquisti_tipi |o--o{ acquisti_tariffe : "tipo_id"
+  acquisti_anagrafica |o--o{ acquisti_log : "anagrafica_id"
+  acquisti_anagrafica |o--o{ acquisti_assegnazioni : "anagrafica_id"
+  acquisti_anagrafica ||--o{ acquisti_anagrafica_tag : "anagrafica_id"
+  acquisti_tag ||--o{ acquisti_anagrafica_tag : "tag_id"

@@ -1,0 +1,167 @@
+erDiagram
+  risorse_umane_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  risorse_umane_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  risorse_umane_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  risorse_umane_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  risorse_umane_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  risorse_umane_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  risorse_umane_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  risorse_umane_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  risorse_umane_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  risorse_umane_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  risorse_umane_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  risorse_umane_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  risorse_umane_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  risorse_umane_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  risorse_umane_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  risorse_umane_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  risorse_umane_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  risorse_umane_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  risorse_umane_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  risorse_umane_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  risorse_umane_categorie |o--o{ risorse_umane_categorie : "parent_id"
+  risorse_umane_tipi |o--o{ risorse_umane_anagrafica : "tipo_id"
+  risorse_umane_categorie |o--o{ risorse_umane_anagrafica : "categoria_id"
+  risorse_umane_stati |o--o{ risorse_umane_anagrafica : "stato_id"
+  risorse_umane_anagrafica ||--o{ risorse_umane_contatti : "anagrafica_id"
+  risorse_umane_anagrafica ||--o{ risorse_umane_indirizzi : "anagrafica_id"
+  risorse_umane_anagrafica |o--o{ risorse_umane_documenti : "anagrafica_id"
+  risorse_umane_stati |o--o{ risorse_umane_documenti : "stato_id"
+  risorse_umane_documenti ||--o{ risorse_umane_righe_documento : "documento_id"
+  risorse_umane_anagrafica |o--o{ risorse_umane_movimenti : "anagrafica_id"
+  risorse_umane_documenti |o--o{ risorse_umane_allegati : "documento_id"
+  risorse_umane_anagrafica |o--o{ risorse_umane_note : "anagrafica_id"
+  risorse_umane_documenti |o--o{ risorse_umane_scadenze : "documento_id"
+  risorse_umane_tipi |o--o{ risorse_umane_tariffe : "tipo_id"
+  risorse_umane_anagrafica |o--o{ risorse_umane_log : "anagrafica_id"
+  risorse_umane_anagrafica |o--o{ risorse_umane_assegnazioni : "anagrafica_id"
+  risorse_umane_anagrafica ||--o{ risorse_umane_anagrafica_tag : "anagrafica_id"
+  risorse_umane_tag ||--o{ risorse_umane_anagrafica_tag : "tag_id"

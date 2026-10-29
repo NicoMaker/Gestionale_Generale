@@ -1,0 +1,167 @@
+erDiagram
+  produzione_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  produzione_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  produzione_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  produzione_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  produzione_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  produzione_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  produzione_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  produzione_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  produzione_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  produzione_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  produzione_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  produzione_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  produzione_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  produzione_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  produzione_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  produzione_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  produzione_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  produzione_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  produzione_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  produzione_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  produzione_categorie |o--o{ produzione_categorie : "parent_id"
+  produzione_tipi |o--o{ produzione_anagrafica : "tipo_id"
+  produzione_categorie |o--o{ produzione_anagrafica : "categoria_id"
+  produzione_stati |o--o{ produzione_anagrafica : "stato_id"
+  produzione_anagrafica ||--o{ produzione_contatti : "anagrafica_id"
+  produzione_anagrafica ||--o{ produzione_indirizzi : "anagrafica_id"
+  produzione_anagrafica |o--o{ produzione_documenti : "anagrafica_id"
+  produzione_stati |o--o{ produzione_documenti : "stato_id"
+  produzione_documenti ||--o{ produzione_righe_documento : "documento_id"
+  produzione_anagrafica |o--o{ produzione_movimenti : "anagrafica_id"
+  produzione_documenti |o--o{ produzione_allegati : "documento_id"
+  produzione_anagrafica |o--o{ produzione_note : "anagrafica_id"
+  produzione_documenti |o--o{ produzione_scadenze : "documento_id"
+  produzione_tipi |o--o{ produzione_tariffe : "tipo_id"
+  produzione_anagrafica |o--o{ produzione_log : "anagrafica_id"
+  produzione_anagrafica |o--o{ produzione_assegnazioni : "anagrafica_id"
+  produzione_anagrafica ||--o{ produzione_anagrafica_tag : "anagrafica_id"
+  produzione_tag ||--o{ produzione_anagrafica_tag : "tag_id"

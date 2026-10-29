@@ -1,0 +1,167 @@
+erDiagram
+  documentale_tipi {
+    int id PK
+    string codice UK
+    string descrizione
+    boolean attivo
+    date created_at
+  }
+  documentale_categorie {
+    int id PK
+    string codice
+    string descrizione
+    int parent_id FK
+    date created_at
+  }
+  documentale_stati {
+    int id PK
+    string codice UK
+    string descrizione
+    string colore
+    date created_at
+  }
+  documentale_anagrafica {
+    int id PK
+    string codice UK
+    string nome
+    int tipo_id FK
+    int categoria_id FK
+    int stato_id FK
+    string note
+    date created_at
+  }
+  documentale_contatti {
+    int id PK
+    int anagrafica_id FK
+    string nome
+    string email
+    string telefono
+    date created_at
+  }
+  documentale_indirizzi {
+    int id PK
+    int anagrafica_id FK
+    string via
+    string citta
+    string cap
+    string provincia
+    date created_at
+  }
+  documentale_documenti {
+    int id PK
+    string numero
+    date data
+    int anagrafica_id FK
+    int stato_id FK
+    float totale
+    date created_at
+  }
+  documentale_righe_documento {
+    int id PK
+    int documento_id FK
+    string descrizione
+    float quantita
+    float prezzo
+    date created_at
+  }
+  documentale_movimenti {
+    int id PK
+    int anagrafica_id FK
+    date data
+    float importo
+    string causale
+    date created_at
+  }
+  documentale_allegati {
+    int id PK
+    int documento_id FK
+    string nome_file
+    string percorso
+    date created_at
+  }
+  documentale_note {
+    int id PK
+    int anagrafica_id FK
+    string testo
+    string autore
+    date created_at
+  }
+  documentale_scadenze {
+    int id PK
+    int documento_id FK
+    date data_scadenza
+    float importo
+    boolean pagata
+    date created_at
+  }
+  documentale_tariffe {
+    int id PK
+    int tipo_id FK
+    float valore
+    date valido_dal
+    date valido_al
+    date created_at
+  }
+  documentale_regole {
+    int id PK
+    string codice
+    string descrizione
+    string espressione
+    date created_at
+  }
+  documentale_configurazioni {
+    int id PK
+    string chiave UK
+    string valore
+    date created_at
+  }
+  documentale_log {
+    int id PK
+    int anagrafica_id FK
+    string azione
+    date data
+    date created_at
+  }
+  documentale_assegnazioni {
+    int id PK
+    int anagrafica_id FK
+    string utente
+    string ruolo
+    date created_at
+  }
+  documentale_tag {
+    int id PK
+    string nome UK
+    date created_at
+  }
+  documentale_anagrafica_tag {
+    int id PK
+    int anagrafica_id FK
+    int tag_id FK
+    date created_at
+  }
+  documentale_report {
+    int id PK
+    string nome
+    string query
+    date creato_il
+    date created_at
+  }
+  documentale_categorie |o--o{ documentale_categorie : "parent_id"
+  documentale_tipi |o--o{ documentale_anagrafica : "tipo_id"
+  documentale_categorie |o--o{ documentale_anagrafica : "categoria_id"
+  documentale_stati |o--o{ documentale_anagrafica : "stato_id"
+  documentale_anagrafica ||--o{ documentale_contatti : "anagrafica_id"
+  documentale_anagrafica ||--o{ documentale_indirizzi : "anagrafica_id"
+  documentale_anagrafica |o--o{ documentale_documenti : "anagrafica_id"
+  documentale_stati |o--o{ documentale_documenti : "stato_id"
+  documentale_documenti ||--o{ documentale_righe_documento : "documento_id"
+  documentale_anagrafica |o--o{ documentale_movimenti : "anagrafica_id"
+  documentale_documenti |o--o{ documentale_allegati : "documento_id"
+  documentale_anagrafica |o--o{ documentale_note : "anagrafica_id"
+  documentale_documenti |o--o{ documentale_scadenze : "documento_id"
+  documentale_tipi |o--o{ documentale_tariffe : "tipo_id"
+  documentale_anagrafica |o--o{ documentale_log : "anagrafica_id"
+  documentale_anagrafica |o--o{ documentale_assegnazioni : "anagrafica_id"
+  documentale_anagrafica ||--o{ documentale_anagrafica_tag : "anagrafica_id"
+  documentale_tag ||--o{ documentale_anagrafica_tag : "tag_id"
