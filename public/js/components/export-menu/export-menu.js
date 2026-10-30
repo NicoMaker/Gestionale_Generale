@@ -11,7 +11,14 @@ const VOCI = {
 
 // base: percorso senza formato (es. /api/export/tables/vendite_documenti)
 // filtro: selettore dell'input di ricerca; il testo cercato viene passato al server (?q=)
-export function menuEsporta({ base, formati = ["xlsx", "pdf", "csv"], filtro = "", extra = "", etichetta = "Esporta", primario = false }) {
+export function menuEsporta({
+  base,
+  formati = ["xlsx", "pdf", "csv"],
+  filtro = "",
+  extra = "",
+  etichetta = "Esporta",
+  primario = false,
+}) {
   const voci = formati
     .map((f) => {
       const [t, n, i] = VOCI[f];
@@ -34,7 +41,10 @@ const chiudiTutti = () =>
   });
 
 export function scarica(url) {
-  const a = Object.assign(document.createElement("a"), { href: url, download: "" });
+  const a = Object.assign(document.createElement("a"), {
+    href: url,
+    download: "",
+  });
   document.body.append(a);
   a.click();
   a.remove();
@@ -53,10 +63,15 @@ export function initEsporta() {
     }
     if (voce) {
       let url = voce.dataset.download;
-      const q = voce.dataset.qFrom && document.querySelector(voce.dataset.qFrom)?.value.trim();
+      const q =
+        voce.dataset.qFrom &&
+        document.querySelector(voce.dataset.qFrom)?.value.trim();
       if (q) url += "?q=" + encodeURIComponent(q);
       scarica(url);
     }
   });
-  document.addEventListener("keydown", (e) => e.key === "Escape" && chiudiTutti());
+  document.addEventListener(
+    "keydown",
+    (e) => e.key === "Escape" && chiudiTutti(),
+  );
 }

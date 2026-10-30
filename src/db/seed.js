@@ -165,8 +165,30 @@ const VOLUME = {
   allegati: 40,
 };
 // Moduli le cui anagrafiche sono persone fisiche; negli altri sono aziende
-const PERSONE = new Set(["clienti", "risorse_umane", "paghe", "crm", "sicurezza", "marketing"]);
-const ATTIVITA = ["Impianti", "Logistica", "Design", "Alimentari", "Tessuti", "Meccanica", "Costruzioni", "Informatica", "Servizi", "Trasporti", "Consulting", "Energia", "Packaging", "Elettronica"];
+const PERSONE = new Set([
+  "clienti",
+  "risorse_umane",
+  "paghe",
+  "crm",
+  "sicurezza",
+  "marketing",
+]);
+const ATTIVITA = [
+  "Impianti",
+  "Logistica",
+  "Design",
+  "Alimentari",
+  "Tessuti",
+  "Meccanica",
+  "Costruzioni",
+  "Informatica",
+  "Servizi",
+  "Trasporti",
+  "Consulting",
+  "Energia",
+  "Packaging",
+  "Elettronica",
+];
 const FORME = ["Srl", "SpA", "& C. Snc", "Sas", "Group"];
 
 async function seedModule(mod, idx) {

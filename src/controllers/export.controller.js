@@ -19,7 +19,8 @@ const errore = (status, msg) => Object.assign(new Error(msg), { status });
 // Crea il file nel formato richiesto e lo invia come download
 async function invia(res, pacchetto, formato, base, ammessi) {
   const f = FORMATI[formato];
-  if (!f || !ammessi.includes(formato)) throw errore(400, "Formato non supportato");
+  if (!f || !ammessi.includes(formato))
+    throw errore(400, "Formato non supportato");
   if (!pacchetto) throw errore(404, "Elemento non trovato");
   res.type(f.mime);
   res.attachment(`${base}-${oggi()}.${f.estensione}`);
@@ -27,9 +28,21 @@ async function invia(res, pacchetto, formato, base, ammessi) {
 }
 
 export const tabella = async (req, res) =>
-  invia(res, await dati.perTabella(req.params.table, req.query.q), req.params.formato, req.params.table, ["csv", "xlsx", "pdf"]);
+  invia(
+    res,
+    await dati.perTabella(req.params.table, req.query.q),
+    req.params.formato,
+    req.params.table,
+    ["csv", "xlsx", "pdf"],
+  );
 export const modulo = async (req, res) =>
-  invia(res, await dati.perModulo(req.params.id), req.params.formato, req.params.id, ["xlsx", "pdf"]);
+  invia(
+    res,
+    await dati.perModulo(req.params.id),
+    req.params.formato,
+    req.params.id,
+    ["xlsx", "pdf"],
+  );
 export const tutto = async (req, res) =>
   invia(res, await dati.tutto(), "xlsx", "gestionale-completo", ["xlsx"]);
 
@@ -37,5 +50,7 @@ export const tutto = async (req, res) =>
 export const backup = async (req, res) => {
   const tmp = join(tmpdir(), `gestionale-${Date.now()}.db`);
   await run(`VACUUM INTO '${tmp.replace(/'/g, "''")}'`);
-  res.download(tmp, `gestionale-backup-${oggi()}.db`, () => rm(tmp, { force: true }));
+  res.download(tmp, `gestionale-backup-${oggi()}.db`, () =>
+    rm(tmp, { force: true }),
+  );
 };

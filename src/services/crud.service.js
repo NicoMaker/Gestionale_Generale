@@ -34,7 +34,10 @@ const labelsSql = (t) =>
 // Tutte le righe (senza paginazione) con le etichette delle chiavi esterne: per le esportazioni
 export const listAll = (t, q = "") => {
   const { where, params } = search(t, q);
-  return all(`SELECT *${labelsSql(t)} FROM "${t.name}" ${where} ORDER BY id`, params);
+  return all(
+    `SELECT *${labelsSql(t)} FROM "${t.name}" ${where} ORDER BY id`,
+    params,
+  );
 };
 
 export async function list(t, { page = 1, limit = 20, q = "" }) {

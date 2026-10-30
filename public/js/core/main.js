@@ -40,7 +40,8 @@ async function mostra(route) {
   initForm();
   initPalette();
   initEsporta();
-  $("#sideBackup").innerHTML = `${icona("scudo")}<span><b>Scarica backup</b>Copia del database</span>`;
+  $("#sideBackup").innerHTML =
+    `${icona("scudo")}<span><b>Scarica backup</b>Copia del database</span>`;
   $("#sideBackup").onclick = () => scarica("/api/backup");
   const [mods, stats, dash, tabs] = await Promise.all([
     api("/api/modules"),
