@@ -10,6 +10,7 @@ import {
   initSchemaFigure,
 } from "../schema-img/schema-img.js";
 import { countUp } from "../home/grafici.js";
+import { menuEsporta } from "../export-menu/export-menu.js";
 
 export async function renderModulo(id) {
   const m = state.mods.find((x) => x.id === id);
@@ -23,6 +24,7 @@ export async function renderModulo(id) {
     <div class="mod-head" style="--h:${hueOf(id)}">
       <span class="ico">${iconaModulo(id)}</span>
       <div><h1>${esc(m.label)}</h1><p>${s.tables.length} sezioni · ${fmt(s.records)} record totali</p></div>
+      <div class="mod-azioni">${menuEsporta({ base: `/api/export/modules/${id}`, formati: ["xlsx", "pdf"], etichetta: "Esporta categoria", primario: true })}</div>
     </div>
     <div class="kpis">${kpi("anagrafica", "Anagrafiche")}${kpi("documenti", "Documenti")}${kpi("movimenti", "Movimenti")}${kpi("scadenze", "Scadenze")}</div>
     ${GRUPPI.map(

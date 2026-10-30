@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as c from "../controllers/crud.controller.js";
+import * as x from "../controllers/export.controller.js";
 
 const router = Router();
 
@@ -8,6 +9,12 @@ router.get("/tables", c.listTables);
 router.get("/stats", c.stats);
 router.get("/dashboard", c.dashboard);
 router.get("/modules/:id/summary", c.moduleSummary);
+
+// Esportazioni (CSV, Excel, PDF) e copia del database
+router.get("/export/tables/:table/:formato", x.tabella);
+router.get("/export/modules/:id/:formato", x.modulo);
+router.get("/export/all/xlsx", x.tutto);
+router.get("/backup", x.backup);
 
 router.get("/tables/:table/meta", c.loadTable, c.meta);
 router.get("/tables/:table/options", c.loadTable, c.options);

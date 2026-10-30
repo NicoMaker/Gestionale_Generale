@@ -2,6 +2,7 @@ import { $, esc, fmt, greeting } from "../../core/utils.js";
 import { state, hueOf } from "../../core/state.js";
 import { iconaModulo } from "../../core/icone.js";
 import { barChart, donut, countUp } from "./grafici.js";
+import { menuEsporta, voceBackup } from "../export-menu/export-menu.js";
 
 export function renderHome(apriRicerca) {
   const sum = (k) => state.stats.reduce((a, s) => a + s[k], 0);
@@ -43,7 +44,13 @@ export function renderHome(apriRicerca) {
         <div><b>${fmt(s.documenti || 0)}</b><span>Documenti</span></div>
         <div><b>${fmt(s.movimenti || 0)}</b><span>Movimenti</span></div></div></a>`;
       })
-      .join("")}</div>`;
+      .join("")}</div>
+    <h2 class="sec">Dati e sicurezza</h2>
+    <div class="panel dati-sic">
+      <h3>Scarica i tuoi dati</h3>
+      ${menuEsporta({ base: "/api/export/all", formati: ["xlsx"], extra: voceBackup, etichetta: "Esporta tutto", primario: true })}
+      <small>Excel con tutte le ${fmt(nTab)} tabelle (un foglio ciascuna) oppure copia completa del database. Ogni tabella e ogni categoria ha il proprio menu Esporta in CSV, Excel e PDF.</small>
+    </div>`;
   $("#heroSearch").onclick = apriRicerca;
   countUp($("#view"));
 }

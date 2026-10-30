@@ -6,6 +6,7 @@ import { icona, iconaSezione } from "../../core/icone.js";
 import { GRUPPI } from "../../core/config.js";
 import { toast } from "../toast/toast.js";
 import { apriForm } from "../form-record/form-record.js";
+import { menuEsporta } from "../export-menu/export-menu.js";
 
 const t = { page: 1, q: "", name: "", meta: null };
 
@@ -76,6 +77,7 @@ export async function renderTabella(mod, suffix) {
       <div class="toolbar">
         <div class="search">${icona("cerca")}<input id="search" placeholder="Cerca in ${esc(t.meta.label.toLowerCase())}"></div>
         <span class="total" id="total"></span>
+        ${menuEsporta({ base: `/api/export/tables/${t.name}`, filtro: "#search" })}
         <button class="btn primary" id="addBtn">${icona("piu")}Nuovo record</button>
       </div>
       <div class="grid-wrap"><table id="grid"></table></div>

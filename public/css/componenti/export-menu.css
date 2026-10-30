@@ -1,0 +1,104 @@
+.xm {
+  position: relative;
+  display: inline-block;
+}
+.xm .xm-freccia {
+  margin: 0 0 0 6px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+.xm-lista {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  min-width: 230px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.xm-lista[hidden] {
+  display: none;
+}
+.xm-voce {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.xm-voce .icona {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+.xm-voce b {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+}
+.xm-voce small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.xm-voce:hover,
+.xm-voce:focus-visible {
+  background: var(--accent-soft);
+  outline: none;
+}
+/* pannello «Dati e sicurezza» nella panoramica */
+.dati-sic {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 18px;
+}
+.dati-sic h3 {
+  margin: 0 12px 0 0;
+}
+.dati-sic small {
+  color: var(--muted);
+  flex-basis: 100%;
+}
+.side-backup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 10px 12px;
+  border: 1px dashed #ffffff33;
+  border-radius: 10px;
+  color: var(--side-text);
+  font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+}
+.side-backup .icona {
+  width: 18px;
+  height: 18px;
+}
+.side-backup b {
+  display: block;
+  color: #fff;
+  font-weight: 600;
+}
+.side-backup:hover {
+  border-color: var(--accent);
+  background: var(--side-active);
+}

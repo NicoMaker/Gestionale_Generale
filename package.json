@@ -13,7 +13,9 @@
     "schema:completo": "node scripts/generate-mmd.js --full"
   },
   "dependencies": {
+    "exceljs": "^4.4.0",
     "express": "^5.1.0",
+    "pdfkit": "^0.20.2",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

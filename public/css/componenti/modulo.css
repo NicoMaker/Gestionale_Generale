@@ -164,3 +164,6 @@
   color: #fff;
   box-shadow: 0 6px 14px -6px var(--accent);
 }
+.mod-head .mod-azioni {
+  margin-left: auto;
+}

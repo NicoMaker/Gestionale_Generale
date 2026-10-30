@@ -13,7 +13,7 @@ app.use(express.static(join(import.meta.dirname, "public")));
 
 app.use((err, req, res, next) => {
   console.error(err.message);
-  res.status(400).json({ error: err.message });
+  res.status(err.status ?? 400).json({ error: err.message });
 });
 
 try {

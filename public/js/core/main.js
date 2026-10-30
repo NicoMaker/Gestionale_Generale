@@ -11,6 +11,8 @@ import { renderTabella } from "../components/tabella-dati/tabella-dati.js";
 import { initForm } from "../components/form-record/form-record.js";
 import { initPalette, apriPalette } from "../components/palette/palette.js";
 import { toast } from "../components/toast/toast.js";
+import { initEsporta, scarica } from "../components/export-menu/export-menu.js";
+import { icona } from "./icone.js";
 
 async function mostra(route) {
   state.route = route;
@@ -37,6 +39,9 @@ async function mostra(route) {
   initTopbar(apriPalette);
   initForm();
   initPalette();
+  initEsporta();
+  $("#sideBackup").innerHTML = `${icona("scudo")}<span><b>Scarica backup</b>Copia del database</span>`;
+  $("#sideBackup").onclick = () => scarica("/api/backup");
   const [mods, stats, dash, tabs] = await Promise.all([
     api("/api/modules"),
     api("/api/stats"),

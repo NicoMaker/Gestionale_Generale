@@ -20,6 +20,22 @@ const NOMI = [
   "Valentina",
   "Stefano",
   "Alessia",
+  "Federico",
+  "Laura",
+  "Giorgio",
+  "Silvia",
+  "Roberto",
+  "Anna",
+  "Alessandro",
+  "Cristina",
+  "Daniele",
+  "Monica",
+  "Fabio",
+  "Elisa",
+  "Riccardo",
+  "Irene",
+  "Michele",
+  "Giorgia",
 ];
 const COGNOMI = [
   "Rossi",
@@ -38,6 +54,18 @@ const COGNOMI = [
   "Costa",
   "Giordano",
   "Mancini",
+  "Rizzo",
+  "Lombardi",
+  "Moretti",
+  "Barbieri",
+  "Fontana",
+  "Santoro",
+  "Mariani",
+  "Rinaldi",
+  "Caruso",
+  "Ferrara",
+  "Galli",
+  "Martini",
 ];
 const CITTA = [
   ["Milano", "20121", "MI"],
@@ -50,6 +78,14 @@ const CITTA = [
   ["Bergamo", "24121", "BG"],
   ["Padova", "35121", "PD"],
   ["Bari", "70121", "BA"],
+  ["Genova", "16121", "GE"],
+  ["Venezia", "30121", "VE"],
+  ["Palermo", "90121", "PA"],
+  ["Brescia", "25121", "BS"],
+  ["Parma", "43121", "PR"],
+  ["Trieste", "34121", "TS"],
+  ["Como", "22100", "CO"],
+  ["Modena", "41121", "MO"],
 ];
 const VIE = [
   "Via Roma",
@@ -72,6 +108,10 @@ const NOTE = [
   "Verificare i dati fiscali",
   "Referente cambiato di recente",
   "Contratto in rinnovo",
+  "Pagamento a 60 giorni",
+  "Consegna al piano",
+  "Ordine minimo concordato",
+  "Segnalato da un partner",
 ];
 const TAGS = [
   "Prioritario",
@@ -80,6 +120,10 @@ const TAGS = [
   "Nuovo",
   "In scadenza",
   "Approvato",
+  "VIP",
+  "Archiviato",
+  "Internazionale",
+  "Rivenditore",
 ];
 const AZIONI = [
   "Creazione",
@@ -102,6 +146,7 @@ const rng = (seed) => {
 };
 const p2 = (n) => String(n).padStart(2, "0");
 const date = (m, d) => `2026-${p2(m)}-${p2(d)}`;
+// (slug: usato per email e nomi file)
 const slug = (s) =>
   s
     .toLowerCase()
@@ -109,6 +154,20 @@ const slug = (s) =>
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]/g, "")
     .slice(0, 14);
+
+// Quantità di dati per ogni modulo (20 tabelle x 25 moduli)
+const VOLUME = {
+  anagrafiche: 45, // soggetti per modulo (i primi 8 hanno nome reale, gli altri sono generati)
+  documenti: 120,
+  movimenti: 200,
+  log: 150,
+  assegnazioni: 40,
+  allegati: 40,
+};
+// Moduli le cui anagrafiche sono persone fisiche; negli altri sono aziende
+const PERSONE = new Set(["clienti", "risorse_umane", "paghe", "crm", "sicurezza", "marketing"]);
+const ATTIVITA = ["Impianti", "Logistica", "Design", "Alimentari", "Tessuti", "Meccanica", "Costruzioni", "Informatica", "Servizi", "Trasporti", "Consulting", "Energia", "Packaging", "Elettronica"];
+const FORME = ["Srl", "SpA", "& C. Snc", "Sas", "Group"];
 
 async function seedModule(mod, idx) {
   const cfg = DATA[mod],
@@ -159,7 +218,18 @@ async function seedModule(mod, idx) {
 
   // Anagrafica
   const anag = [];
-  for (const [i, nome] of cfg.anag.entries())
+  const nomiAnag = [...cfg.anag];
+  while (nomiAnag.length < VOLUME.anagrafiche) {
+    const n = nomiAnag.length;
+    nomiAnag.push(
+      PERSONE.has(mod)
+        ? person()
+        : `${pick(COGNOMI)} ${pick(ATTIVITA)} ${pick(FORME)}`,
+    );
+    if (nomiAnag.indexOf(nomiAnag[n]) !== n) nomiAnag[n] += ` ${n}`;
+  }
+  cfg.anag = nomiAnag;
+  for (const [i, nome] of nomiAnag.entries())
     anag.push(
       await ins("anagrafica", {
         codice: `${mod.toUpperCase()}-${String(i + 1).padStart(3, "0")}`,
@@ -175,7 +245,7 @@ async function seedModule(mod, idx) {
   const tags = [];
   for (const t of TAGS) tags.push(await ins("tag", { nome: t }));
   for (const [i, a] of anag.entries()) {
-    for (let k = 0; k < int(1, 2); k++) {
+    for (let k = 0, nc = int(1, 3); k < nc; k++) {
       const [n, c] = [pick(NOMI), pick(COGNOMI)];
       await ins("contatti", {
         anagrafica_id: a,
@@ -194,16 +264,17 @@ async function seedModule(mod, idx) {
     });
     for (const t of [...tags].sort(() => r() - 0.5).slice(0, int(1, 3)))
       await ins("anagrafica_tag", { anagrafica_id: a, tag_id: t });
-    await ins("note", {
-      anagrafica_id: a,
-      testo: pick(NOTE),
-      autore: person(),
-    });
+    for (let k = 0, nn = int(1, 3); k < nn; k++)
+      await ins("note", {
+        anagrafica_id: a,
+        testo: pick(NOTE),
+        autore: person(),
+      });
   }
 
   // Documenti + righe + scadenze + allegati
   const docs = [];
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= VOLUME.documenti; i++) {
     const m = int(1, 10),
       dd = int(1, 28),
       st = stato();
@@ -215,7 +286,7 @@ async function seedModule(mod, idx) {
       totale: 0,
     });
     let tot = 0;
-    for (let k = 0; k < int(2, 4); k++) {
+    for (let k = 0, nr = int(2, 5); k < nr; k++) {
       const q = int(1, 20),
         pr = money(10, 400);
       tot += q * pr;
@@ -240,7 +311,7 @@ async function seedModule(mod, idx) {
       });
     docs.push(id);
   }
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < VOLUME.allegati; i++) {
     const d = pick(docs);
     await ins("allegati", {
       documento_id: d,
@@ -250,7 +321,7 @@ async function seedModule(mod, idx) {
   }
 
   // Movimenti (10 mesi, per i grafici)
-  for (let i = 0; i < 30; i++)
+  for (let i = 0; i < VOLUME.movimenti; i++)
     await ins("movimenti", {
       anagrafica_id: pick(anag),
       data: date(int(1, 10), int(1, 28)),
@@ -289,13 +360,13 @@ async function seedModule(mod, idx) {
     ["notifiche_email", "attive"],
   ])
     await ins("configurazioni", { chiave: k, valore: v });
-  for (let i = 0; i < 30; i++)
+  for (let i = 0; i < VOLUME.log; i++)
     await ins("log", {
       anagrafica_id: pick(anag),
       azione: pick(AZIONI),
       data: date(int(1, 10), int(1, 28)),
     });
-  for (let i = 0; i < 10; i++)
+  for (let i = 0; i < VOLUME.assegnazioni; i++)
     await ins("assegnazioni", {
       anagrafica_id: pick(anag),
       utente: person(),
