@@ -2,6 +2,7 @@ import { join } from "node:path";
 import express from "express";
 import apiRoutes from "./src/routes/api.js";
 import { initDb } from "./src/db/init.js";
+import { stampaAvvio } from "./src/config/rete.js";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -18,7 +19,7 @@ app.use((err, req, res, next) => {
 
 try {
   await initDb();
-  app.listen(PORT, () => console.log(`Gestionale su http://localhost:${PORT}`));
+  app.listen(PORT, "0.0.0.0", () => stampaAvvio(PORT));
 } catch (e) {
   console.error("Errore init DB:", e);
   process.exit(1);
