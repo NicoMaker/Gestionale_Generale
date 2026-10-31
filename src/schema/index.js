@@ -5,6 +5,13 @@ export { MODULES };
 export const tables = buildTables();
 export const byName = new Map(tables.map((t) => [t.name, t]));
 
+// Chiavi esterne al contrario: per ogni tabella, quali tabelle/colonne la referenziano
+export const usedBy = new Map(tables.map((t) => [t.name, []]));
+for (const t of tables)
+  for (const c of t.columns)
+    if (c.fk && usedBy.has(c.fk.table))
+      usedBy.get(c.fk.table).push({ table: t.name, label: t.label, column: c.name });
+
 export function createSql(t) {
   const cols = t.columns.map((c) => {
     if (c.pk) return `"${c.name}" INTEGER PRIMARY KEY AUTOINCREMENT`;

@@ -20,6 +20,7 @@ router.get("/tables/:table/meta", c.loadTable, c.meta);
 router.get("/tables/:table/options", c.loadTable, c.options);
 router.get("/tables/:table", c.loadTable, c.list);
 router.post("/tables/:table", c.loadTable, c.create);
+router.post("/tables/:table/elimina", c.loadTable, c.removeMany);
 router.get("/tables/:table/:id", c.loadTable, c.getOne);
 router.put("/tables/:table/:id", c.loadTable, c.update);
 router.delete("/tables/:table/:id", c.loadTable, c.remove);

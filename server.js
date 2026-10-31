@@ -7,7 +7,7 @@ import { stampaAvvio } from "./src/config/rete.js";
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use("/api", apiRoutes);
 app.use("/img", express.static(join(import.meta.dirname, "img")));
 app.use(express.static(join(import.meta.dirname, "public")));

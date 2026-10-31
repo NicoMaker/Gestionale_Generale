@@ -238,6 +238,16 @@
   td.act::before {
     content: none;
   }
+  td.sel {
+    justify-content: flex-start;
+    width: 100%;
+  }
+  td.sel::before {
+    content: none;
+  }
+  tbody tr.selezionata {
+    border-color: var(--accent);
+  }
   td.act .btn {
     flex: 1;
     margin: 0;

@@ -1,5 +1,6 @@
 // Icone SVG (viewBox 24x24, solo contorno). Colore = currentColor, quindi seguono sempre il tema.
 const D = {
+  spunta: '<path d="M20 6 9 17l-5-5"/>',
   home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
   dashboard:
     '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',

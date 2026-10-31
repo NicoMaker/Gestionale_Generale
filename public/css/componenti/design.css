@@ -1,0 +1,304 @@
+/* Rifinitura di interfaccia: caricato per ultimo, sostituisce gradienti e ombre decorative con superfici piatte e gerarchia chiara */
+
+/* Tipografia: numeri allineati, titoli compatti */
+body {
+  font-variant-numeric: tabular-nums;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+/* Menu laterale: blu notte uniforme, marchio piatto */
+.sidebar {
+  background: var(--side);
+}
+.logo {
+  background: var(--accent);
+  border-radius: 8px;
+}
+:root[data-theme="dark"] .logo {
+  color: #0b1220;
+}
+.nav-item,
+.search-box input {
+  border-radius: 8px;
+}
+.nav-item.active {
+  box-shadow: inset 3px 0 0 var(--accent-2);
+}
+:root[data-theme="dark"] .nav-item.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* Pulsanti piatti, con stato attivo ben visibile */
+.btn {
+  min-height: 38px;
+  border-radius: 8px;
+  border-color: color-mix(in srgb, var(--line) 70%, var(--muted));
+}
+.btn.primary {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.14);
+}
+:root[data-theme="dark"] .btn.primary {
+  color: #0b1220;
+}
+.btn.primary:hover {
+  background: color-mix(in srgb, var(--accent) 86%, black);
+}
+.btn.sm {
+  min-height: 32px;
+}
+.btn.danger {
+  color: var(--bad);
+}
+.btn.danger.solid {
+  background: var(--bad);
+  border-color: var(--bad);
+  color: #fff;
+}
+:root[data-theme="dark"] .btn.danger.solid {
+  color: #1b0509;
+}
+.btn.danger.solid:hover {
+  background: color-mix(in srgb, var(--bad) 86%, black);
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Pannelli e schede: bordo netto, ombra minima */
+.panel {
+  border-radius: 12px;
+}
+.chip.active {
+  background: var(--accent);
+  box-shadow: none;
+  color: #fff;
+}
+:root[data-theme="dark"] .chip.active {
+  color: #0b1220;
+}
+.kpi.accent {
+  background: var(--accent-soft);
+}
+
+/* Home: il banner diventa una superficie piena dell'accento */
+.hero-banner {
+  border-radius: 14px;
+  background: var(--side);
+  box-shadow: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.hero-banner::after {
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Barra della tabella */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--surface);
+}
+.search input {
+  background: var(--surface-2);
+  border-color: transparent;
+}
+.search input:focus {
+  background: var(--surface);
+}
+.toolbar .btn.danger {
+  border-color: color-mix(in srgb, var(--bad) 40%, var(--line));
+}
+.toolbar .btn.danger:hover {
+  background: var(--bad-bg);
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+/* Tabella */
+th {
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--surface-2);
+}
+td {
+  padding: 10px 16px;
+}
+tbody tr.selezionata td {
+  background: var(--accent-soft);
+}
+tbody tr.selezionata td.sel {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+td.act .btn {
+  opacity: 0.4;
+}
+tbody tr:hover td.act .btn,
+td.act .btn:focus-visible {
+  opacity: 1;
+}
+
+/* Barra di selezione fissa in basso */
+.selbar {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  translate: -50% 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 14px;
+  border-radius: 12px;
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.45);
+  max-width: calc(100vw - 24px);
+}
+.selbar[hidden] {
+  display: none;
+}
+.selbar-ic {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+}
+:root[data-theme="dark"] .selbar-ic {
+  color: #0b1220;
+}
+.selbar-ic .icona {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.4;
+}
+.selbar-t {
+  margin-right: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.selbar .btn:not(.solid) {
+  background: transparent;
+  border-color: transparent;
+  color: inherit;
+  opacity: 0.85;
+}
+.selbar .btn:not(.solid):hover {
+  background: rgb(128 128 128 / 0.28);
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .selbar:not([hidden]) {
+    animation: selbar-in 0.2s ease-out;
+  }
+  @keyframes selbar-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+}
+
+/* Finestre di dialogo */
+dialog.dlg {
+  width: min(470px, calc(100vw - 24px));
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.5);
+}
+dialog.dlg::backdrop {
+  background: rgb(8 12 24 / 0.55);
+  backdrop-filter: blur(3px);
+}
+.dlg-corpo {
+  padding: 24px 24px 8px;
+}
+.dlg-corpo h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.dlg-corpo p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+.dlg-az {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.dlg-lista {
+  list-style: none;
+  margin: 18px 0 8px;
+  padding: 0;
+  max-height: 42vh;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.dlg-lista li {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+}
+.dlg-lista li:first-child {
+  border-top: 0;
+}
+.dlg-lista small {
+  color: var(--muted);
+}
+.dlg-lista .altri {
+  color: var(--muted);
+  background: var(--surface-2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  dialog.dlg[open] {
+    animation: dlg-in 0.18s ease-out;
+  }
+  @keyframes dlg-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+  }
+}
+
+/* Notifiche in alto a destra della barra di selezione */
+.toasts {
+  bottom: 84px;
+}
+.toast {
+  border-radius: 10px;
+}
+
+/* Schermi piccoli */
+@media (max-width: 700px) {
+  main {
+    padding-bottom: 110px;
+  }
+  .selbar {
+    left: 12px;
+    right: 12px;
+    translate: none;
+  }
+  .selbar-t {
+    margin-right: auto;
+  }
+}

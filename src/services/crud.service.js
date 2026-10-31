@@ -1,5 +1,5 @@
 import { all, get, run } from "../config/db.js";
-import { byName, labelCol } from "../schema/index.js";
+import { byName, labelCol, usedBy } from "../schema/index.js";
 
 export const editable = (t) =>
   t.columns.filter((c) => !c.pk && c.name !== "created_at");
@@ -88,8 +88,79 @@ export async function update(t, id, body) {
   return getOne(t, id);
 }
 
-export const remove = async (t, id) =>
-  (await run(`DELETE FROM "${t.name}" WHERE id = ?`, [id])).changes;
+const CHUNK = 500;
+const conflict = (message) => Object.assign(new Error(message), { status: 409 });
+
+// Dove sono usati i record di `t`: Map id -> [{ tabella, n }].
+// Con `ids` si controllano solo quelli indicati, altrimenti tutta la tabella.
+async function usage(t, ids = null) {
+  const out = new Map();
+  for (const u of usedBy.get(t.name)) {
+    const col = `"${u.column}"`;
+    const parti = ids ? Array.from({ length: Math.ceil(ids.length / CHUNK) }, (_, i) => ids.slice(i * CHUNK, (i + 1) * CHUNK)) : [null];
+    for (const parte of parti) {
+      const rows = await all(
+        `SELECT ${col} AS id, COUNT(*) AS n FROM "${u.table}" WHERE ${parte ? `${col} IN (${parte.map(() => "?")})` : `${col} IS NOT NULL`} GROUP BY ${col}`,
+        parte ?? [],
+      );
+      for (const r of rows) {
+        const l = out.get(r.id) ?? [];
+        l.push({ tabella: u.label, n: r.n });
+        out.set(r.id, l);
+      }
+    }
+  }
+  return out;
+}
+const descrivi = (l) =>
+  l.slice(0, 4).map((x) => `${x.tabella} (${x.n})`).join(", ") +
+  (l.length > 4 ? ` e altre ${l.length - 4} tabelle` : "");
+
+// Elimina un record solo se nessun'altra tabella lo usa
+export async function remove(t, id) {
+  const l = (await usage(t, [Number(id)])).get(Number(id));
+  if (l) throw conflict(`Non eliminabile: collegato a ${descrivi(l)}`);
+  return (await run(`DELETE FROM "${t.name}" WHERE id = ?`, [id])).changes;
+}
+
+// Eliminazione multipla: { ids: [...] } oppure { tutti: true, q } (tutti i record, o quelli trovati dalla ricerca).
+// I record collegati ad altre tabelle vengono saltati e restituiti in `bloccati`.
+export async function removeMany(t, { ids, tutti, q = "" } = {}) {
+  let lista;
+  if (tutti) {
+    const { where, params } = search(t, q);
+    lista = (await all(`SELECT id FROM "${t.name}" ${where}`, params)).map((r) => r.id);
+  } else if (Array.isArray(ids))
+    lista = [...new Set(ids.map(Number))].filter(Number.isInteger);
+  else throw Object.assign(new Error("Nessun record indicato"), { status: 400 });
+
+  const usati = await usage(t, tutti ? null : lista);
+  const liberi = lista.filter((id) => !usati.has(id));
+  const idBloccati = lista.filter((id) => usati.has(id));
+  // il nome leggibile dei primi record bloccati, per il riepilogo a video
+  const nomi = new Map();
+  const primi = idBloccati.slice(0, 100);
+  if (primi.length)
+    for (const x of await all(
+      `SELECT id, "${labelCol(t)}" AS e FROM "${t.name}" WHERE id IN (${primi.map(() => "?")})`,
+      primi,
+    ))
+      nomi.set(x.id, x.e);
+  const bloccati = idBloccati.map((id) => ({
+    id,
+    etichetta: nomi.get(id) ?? null,
+    usato_in: descrivi(usati.get(id)),
+  }));
+
+  let eliminati = 0;
+  for (let i = 0; i < liberi.length; i += CHUNK) {
+    const parte = liberi.slice(i, i + CHUNK);
+    eliminati += (
+      await run(`DELETE FROM "${t.name}" WHERE id IN (${parte.map(() => "?")})`, parte)
+    ).changes;
+  }
+  return { eliminati, bloccati };
+}
 
 export const options = (t) =>
   all(

@@ -56,6 +56,9 @@ export const remove = async (req, res) => {
     : res.status(404).json({ error: "Record non trovato" });
 };
 
+export const removeMany = async (req, res) =>
+  res.json(await crud.removeMany(req.t, req.body));
+
 export const options = async (req, res) => res.json(await crud.options(req.t));
 
 // Conteggi per modulo (anagrafiche, documenti, movimenti) per la panoramica

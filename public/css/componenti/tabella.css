@@ -147,3 +147,34 @@ td.act .btn:focus-visible {
   align-items: center;
   gap: 10px;
 }
+
+/* selezione multipla */
+th.sel,
+td.sel {
+  width: 1%;
+  padding-right: 4px;
+  text-align: center;
+}
+td.sel input,
+th.sel input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+  vertical-align: middle;
+}
+tbody tr.selezionata td {
+  background: var(--accent-soft);
+}
+.toolbar .btn[hidden] {
+  display: none;
+}
+.toolbar .btn.danger {
+  color: var(--bad);
+  border-color: color-mix(in srgb, var(--bad) 45%, var(--line));
+}
+.toolbar .btn.danger:hover {
+  background: var(--bad-bg);
+  border-color: var(--bad);
+}
