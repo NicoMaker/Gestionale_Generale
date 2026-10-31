@@ -26,14 +26,18 @@ export function conferma({ titolo, testo, azione = "Elimina" }) {
         <button type="button" class="btn danger solid" data-si>${esc(azione)}</button>
       </div>`);
     dlg.querySelector("[data-no]").onclick = () => dlg.close();
-    dlg.querySelector("[data-si]").onclick = () => ((esito = true), dlg.close());
+    dlg.querySelector("[data-si]").onclick = () => (
+      (esito = true),
+      dlg.close()
+    );
     dlg.addEventListener("close", () => ok(esito));
   });
 }
 
 // Riepilogo di un'eliminazione multipla in cui alcuni record sono rimasti perché collegati
 export function esito({ eliminati, bloccati, tabella }) {
-  const rimasti = bloccati.length === 1 ? "1 rimasto" : `${bloccati.length} rimasti`;
+  const rimasti =
+    bloccati.length === 1 ? "1 rimasto" : `${bloccati.length} rimasti`;
   const titolo = eliminati
     ? `${eliminati === 1 ? "1 record eliminato" : `${eliminati} record eliminati`}, ${rimasti}`
     : bloccati.length === 1
@@ -49,7 +53,9 @@ export function esito({ eliminati, bloccati, tabella }) {
           (b) =>
             `<li><b>${esc(b.etichetta || `Record ${b.id}`)}</b><small>Usato in ${esc(b.usato_in)}</small></li>`,
         )
-        .join("")}${bloccati.length > MAX ? `<li class="altri">e altri ${bloccati.length - MAX}</li>` : ""}</ul>
+        .join(
+          "",
+        )}${bloccati.length > MAX ? `<li class="altri">e altri ${bloccati.length - MAX}</li>` : ""}</ul>
     </div>
     <div class="dlg-az"><button type="button" class="btn primary">Ho capito</button></div>`,
     { predefinito: ".btn" },

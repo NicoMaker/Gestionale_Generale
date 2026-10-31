@@ -58,7 +58,12 @@ function deseleziona() {
 }
 // Esc toglie la selezione (se non c'è una finestra aperta)
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && t.sel.size && $("#selBar") && !document.querySelector("dialog[open]"))
+  if (
+    e.key === "Escape" &&
+    t.sel.size &&
+    $("#selBar") &&
+    !document.querySelector("dialog[open]")
+  )
     deseleziona();
 });
 
@@ -75,7 +80,9 @@ function aggiornaSelezione() {
   $("#selN").textContent = fmt(n);
   $("#selT").textContent = n === 1 ? "selezionato" : "selezionati";
   $("#delAll").hidden = !t.total;
-  $("#delAll").lastChild.textContent = t.q ? "Elimina trovati" : "Elimina tutti";
+  $("#delAll").lastChild.textContent = t.q
+    ? "Elimina trovati"
+    : "Elimina tutti";
 }
 
 // Eliminazione multipla: i record collegati ad altre tabelle vengono saltati dal server
@@ -83,7 +90,8 @@ async function eliminaMolti(body, n) {
   const cosa = n === 1 ? "1 record" : `${fmt(n)} record`;
   const quali = body.tutti ? (t.q ? "tutti i " : "tutti i ") : "";
   const ok = await conferma({
-    titolo: body.tutti && !t.q ? "Eliminare tutti i record?" : "Eliminare i record?",
+    titolo:
+      body.tutti && !t.q ? "Eliminare tutti i record?" : "Eliminare i record?",
     testo: `${n === 1 ? "1 record verrà rimosso" : `${quali}${fmt(n)} record verranno rimossi`} da “${t.meta.label}”. Quelli collegati ad altre tabelle non vengono eliminati. L’operazione non si può annullare.`,
     azione: n === 1 ? "Elimina" : `Elimina ${fmt(n)}`,
   });
@@ -98,7 +106,11 @@ async function eliminaMolti(body, n) {
     await carica();
     if (bloccati.length) esito({ eliminati, bloccati, tabella: t.meta.label });
     else if (eliminati)
-      toast(eliminati === 1 ? "1 record eliminato" : `${fmt(eliminati)} record eliminati`);
+      toast(
+        eliminati === 1
+          ? "1 record eliminato"
+          : `${fmt(eliminati)} record eliminati`,
+      );
     else toast("Nessun record da eliminare", true);
   } catch (err) {
     toast(err.message, true);

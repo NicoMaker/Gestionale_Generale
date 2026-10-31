@@ -89,7 +89,8 @@ export async function update(t, id, body) {
 }
 
 const CHUNK = 500;
-const conflict = (message) => Object.assign(new Error(message), { status: 409 });
+const conflict = (message) =>
+  Object.assign(new Error(message), { status: 409 });
 
 // Dove sono usati i record di `t`: Map id -> [{ tabella, n }].
 // Con `ids` si controllano solo quelli indicati, altrimenti tutta la tabella.
@@ -97,7 +98,11 @@ async function usage(t, ids = null) {
   const out = new Map();
   for (const u of usedBy.get(t.name)) {
     const col = `"${u.column}"`;
-    const parti = ids ? Array.from({ length: Math.ceil(ids.length / CHUNK) }, (_, i) => ids.slice(i * CHUNK, (i + 1) * CHUNK)) : [null];
+    const parti = ids
+      ? Array.from({ length: Math.ceil(ids.length / CHUNK) }, (_, i) =>
+          ids.slice(i * CHUNK, (i + 1) * CHUNK),
+        )
+      : [null];
     for (const parte of parti) {
       const rows = await all(
         `SELECT ${col} AS id, COUNT(*) AS n FROM "${u.table}" WHERE ${parte ? `${col} IN (${parte.map(() => "?")})` : `${col} IS NOT NULL`} GROUP BY ${col}`,
@@ -113,8 +118,10 @@ async function usage(t, ids = null) {
   return out;
 }
 const descrivi = (l) =>
-  l.slice(0, 4).map((x) => `${x.tabella} (${x.n})`).join(", ") +
-  (l.length > 4 ? ` e altre ${l.length - 4} tabelle` : "");
+  l
+    .slice(0, 4)
+    .map((x) => `${x.tabella} (${x.n})`)
+    .join(", ") + (l.length > 4 ? ` e altre ${l.length - 4} tabelle` : "");
 
 // Elimina un record solo se nessun'altra tabella lo usa
 export async function remove(t, id) {
@@ -129,10 +136,13 @@ export async function removeMany(t, { ids, tutti, q = "" } = {}) {
   let lista;
   if (tutti) {
     const { where, params } = search(t, q);
-    lista = (await all(`SELECT id FROM "${t.name}" ${where}`, params)).map((r) => r.id);
+    lista = (await all(`SELECT id FROM "${t.name}" ${where}`, params)).map(
+      (r) => r.id,
+    );
   } else if (Array.isArray(ids))
     lista = [...new Set(ids.map(Number))].filter(Number.isInteger);
-  else throw Object.assign(new Error("Nessun record indicato"), { status: 400 });
+  else
+    throw Object.assign(new Error("Nessun record indicato"), { status: 400 });
 
   const usati = await usage(t, tutti ? null : lista);
   const liberi = lista.filter((id) => !usati.has(id));
@@ -156,7 +166,10 @@ export async function removeMany(t, { ids, tutti, q = "" } = {}) {
   for (let i = 0; i < liberi.length; i += CHUNK) {
     const parte = liberi.slice(i, i + CHUNK);
     eliminati += (
-      await run(`DELETE FROM "${t.name}" WHERE id IN (${parte.map(() => "?")})`, parte)
+      await run(
+        `DELETE FROM "${t.name}" WHERE id IN (${parte.map(() => "?")})`,
+        parte,
+      )
     ).changes;
   }
   return { eliminati, bloccati };

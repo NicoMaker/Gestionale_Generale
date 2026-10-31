@@ -10,7 +10,9 @@ export const usedBy = new Map(tables.map((t) => [t.name, []]));
 for (const t of tables)
   for (const c of t.columns)
     if (c.fk && usedBy.has(c.fk.table))
-      usedBy.get(c.fk.table).push({ table: t.name, label: t.label, column: c.name });
+      usedBy
+        .get(c.fk.table)
+        .push({ table: t.name, label: t.label, column: c.name });
 
 export function createSql(t) {
   const cols = t.columns.map((c) => {
